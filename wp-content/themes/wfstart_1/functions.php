@@ -1,5 +1,5 @@
 <?php
-// THIS IS THE FUNCTIONS.PHP FILE FOR Hubweb1 DEV VERSION ////////////////////////////////////////////   
+// THIS IS THE FUNCTIONS.PHP FILE FOR vagrant-2 ////////////////////////////////////////////   
 
 /*
 
