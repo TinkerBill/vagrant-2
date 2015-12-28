@@ -1,0 +1,422 @@
+@charset "UTF-8";
+/* CSS Document */
+
+/*
+v6.6  WordPress 3.9
+*/
+
+#post_listing_box_id p,
+#post_listing_box_id #widget_hints {
+	margin-left: 5px;
+}
+
+#post_listing_box_id h4,
+#widget_box h4 {
+	font-family: Georgia,"Times New Roman","Bitstream Charter",Times,serif;
+	font-weight: normal;
+	font-size: 1.2em;
+	margin-top: 0.5em;
+	margin-bottom: 0.3em;
+}
+
+#post_listing_box_id ul {
+	margin-left: 10px;
+	margin-top: 0em;
+}
+#post_listing_box_id li {
+	margin-bottom: 0.1em;
+}
+
+#post_listing_box_id select {
+	width: 90%;
+}
+
+/* NEW WIDGET INTERFACE /////////////////////////////////////////////*/
+
+/*
+#widget_box #region_list {
+	float: left;
+	width: 400px;
+}
+*/
+
+#widget_box {
+	display: none; /* overridden by jQuery */
+}
+
+#widget_box .region {
+	background-color: #EEEEEE;
+	/* width: 380px; */
+	margin: 0px;
+	padding: 10px;
+}
+
+.clearboth {
+	clear: both;
+}
+
+td {
+	vertical-align: top;
+}
+
+.widget_table {
+	width: 100%;
+	border-bottom: 1px solid #BBBBBB;
+}
+
+.widget_table td {
+	background-color: transparent;
+}
+
+.widget_table > tbody {
+	position: relative;
+	height: 100%;
+	width: 100%;
+}
+
+.widget_table > tbody > tr > td {
+	border-top-width: 1px;
+	border-top-style: solid;
+	border-top-color: #BBB;
+	padding-top: 5px;
+	padding-bottom: 5px;
+}
+
+
+.widget_sort a:hover {
+	cursor: pointer;
+}
+
+td.order,
+td.edit,
+td.delete {
+	width: 20px;
+}
+
+td.params_store {
+	width: 1px;
+}
+
+td.widget_type {
+	width: 30%;
+}
+
+td.widget_instance_name {
+	width: 240px;
+}
+
+.inherited table {
+	color: #BBB;
+}
+
+
+/*
+td.params_store {
+	display: none;
+}
+*/
+
+
+
+
+
+
+.pstore_div {
+	display: none;
+}
+
+
+.break_inherit {
+	position: absolute;
+	bottom: 10px;
+	left: 45%;
+}
+
+
+
+/* EDITING //////////////////////////////////////// */
+
+
+.editing td {
+	background-color: #FFFFFF;
+}
+
+#inner_wrap {
+	position: relative;
+}
+
+
+#widget_editor {
+	position: absolute;
+	top: -40px;
+	left: 40px;
+	width: 380px;;
+	background-color: #EEEEEE;
+	padding: 10px;
+}
+
+/*
+#widget_editor {
+	float: left;
+	width: 45%;
+	background-color: #EEEEEE;
+	margin-left: 40px;
+	margin-bottom: 20px;
+	padding: 10px;
+}
+
+
+.editing .pstore_div  {
+	display: block;
+}
+*/
+
+table#params  {
+	background-color: transparent;
+	width: 100%;
+}
+
+#params td {
+	/*
+	border-top-width: 1px;
+	border-top-style: solid;
+	border-top-color: #EEEEEE;
+	*/
+	padding-left: 5px;
+	padding-right: 5px;
+	background-color: transparent;
+}
+
+
+#params .pname{
+	width: 50px;
+	text-align: right;
+}
+
+.reqd {
+	color: #990000;
+}
+
+#available_items {
+	background-color: #CCCCCC;
+	padding: 10px;
+	font-size: 0.8em;
+	
+}
+
+#available_items select.post_type {
+	width: 57%;
+	margin-left: 0px;
+	margin-right: 0px;
+}
+
+#available_items select.taxonomy {
+	width: 40%;
+	margin-left: 5px;
+	margin-right: 0px;
+}
+
+#available_items h3 {
+	margin-top: 0px;
+	margin-bottom: 0.2em;
+}
+
+#available_items p {
+	margin-top: 0px;
+}
+
+#params .ok .feedback {
+	/* background-color: #3C0;	*/
+}
+
+#params .ok .feedback i:before {
+  content: "\f00c";
+  color: #3C0;
+  cursor: default;
+}
+
+#params .error .feedback {
+	/*background-color: #F00; */	
+}
+
+
+#params .error .feedback i:before {
+  content: "\f00d";
+  color: #F00;
+  cursor: default;
+}
+
+.ui-dialog .ui-dialog-titlebar {
+	padding-top: 0.5em;
+	padding-bottom: 0.5em;
+}
+
+
+
+#widget_dialog_box {
+	height: auto !important;
+	padding: 0.5em 1em;
+}
+
+.wp-dialog .ui-dialog-title {
+    color: #FFFFFF;
+    font-size: 16px;
+    font-weight: bold;
+    line-height: 18px;
+	text-align: left !important;
+}
+
+.ui-widget-content {
+	background-image: none;
+}
+
+#admin_region_list {
+	position: relative;
+	padding-bottom: 0px;
+	border: none;
+	background: none;
+	z-index: 10;
+}
+
+.region {
+	position: relative;
+	z-index: 10;
+}
+
+#update2 {
+	position: absolute;
+	right: 22px;
+	bottom: 10px;
+	z-index: 20;
+}
+
+.add_widget {
+	margin-top: 10px;
+}
+
+#admin_region_list .category-tabs {
+	margin-bottom: 3px;
+}
+
+.category-tabs li {
+	margin-bottom: 0px;
+	z-index: 0;
+}
+
+.ui-widget-header .ui-state-active {
+	
+	z-index: 20;
+	background: url("images/ui-bg_glass_100_f6f6f6_1x400.png") repeat-x scroll 50% 50% #F6F6F6;
+    border: 1px solid #CCCCCC;
+	border-bottom: none;
+    color: #333333;
+    font-weight: bold;
+	
+}
+
+.ui-widget-header .ui-state-hover {
+	background: url("images/ui-bg_glass_100_f6f6f6_1x400.png") repeat-x scroll 50% 50% #F6F6F6;
+	border: 1px solid #CCCCCC;
+	border-bottom: none;
+	color: #333333;
+}
+
+.ui-state-active a, 
+.ui-state-active a:link, 
+.ui-state-active a:visited,
+.ui-widget-header .ui-state-hover a,
+.ui-widget-header .ui-state-hover a:link,
+.ui-widget-header .ui-state-hover a:visited{
+    color: #000000;
+    text-decoration: none;
+	outline: none;
+	border: none;
+}
+
+#admin_region_list .ui-widget-header {
+	background: none;
+}
+
+#hidden_fields {
+	display: none;
+}
+
+#widget_dialog_box .help div {
+	position: relative;
+	width: 100%;
+	height: 100%;
+	float: none;
+	margin: 0;
+}
+
+.tooltip {
+	display: none;
+	position: absolute !important;
+	background-color: #FFFFFF;
+    border: 1px solid rgba(0, 0, 0, 0.2);
+    border-radius: 6px 6px 6px 6px;
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+	padding: 2px 6px;
+	max-width: 160px;
+    z-index:1000000 !important; /* The default is 100. !important overrides the default. */
+}
+
+.add_param {
+	margin-left: 70px;
+	margin-top: 10px;
+}
+
+.icon-info-sign {
+	cursor: default;
+}
+
+
+.param_delete {
+	cursor: default;
+}
+.param_delete i, 
+.delete i {
+	color: #C00;
+	cursor: pointer;
+}
+
+.param_delete i.disabled {
+	color: #CCCCCC;
+	cursor: default;
+}
+
+/*
+.param_delete i:hover,
+.delete i:hover {
+	color: #C00;
+}
+*/
+
+.edit i {
+	color: #666666;
+	cursor: pointer;
+}
+
+.edit i:hover {
+	color: #000000;
+}
+
+
+
+/* WordPress 3.9 */
+
+.ui-widget-overlay {
+	z-index: 100;
+	position: fixed;
+}
+.ui-dialog { 
+	z-index: 200;
+}
+
+
+
+/* MAINTENANCE MODE */
+
+#wp-admin-bar-maintenance-mode div {
+	background-color: #C00;
+}
