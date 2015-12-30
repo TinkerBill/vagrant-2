@@ -521,6 +521,15 @@ function wf_enqueue_style_hier($handle, $src_tail, $deps = null) { //
 	}
 }
 
+// new function to load scripts from child theme if they exist - else from parent theme
+function wf_enqueue_script_hier($handle, $src_tail, $deps = null) { // 
+	if(file_exists(get_stylesheet_directory_uri().$src_tail)) {
+		wp_enqueue_script($handle, get_stylesheet_directory_uri().$src_tail, $deps); // version in child theme
+	} else {
+		wp_enqueue_script($handle, get_template_directory_uri().$src_tail, $deps); // version in parent theme
+	}
+}
+
 
 function wf_enqueue_assets() { 
 	wf_enqueue_style_hier('font_exasap_css','/fonts/exasap/exasap.css');
@@ -530,8 +539,10 @@ function wf_enqueue_assets() {
 	wf_enqueue_style_hier('hubweb_css','/css/hubweb5.css'); // v2.26 now contains contents of hometest.css
 	wp_enqueue_script('respond_js', get_template_directory_uri().'/scripts/respond.min.js'); // v2.27 IE support
 	wp_enqueue_script('html5shiv_js', get_template_directory_uri().'/scripts/html5shiv.min.js'); // v2.27 IE support
-	wp_enqueue_script('jq_watermark'); // v3.73
-	wp_enqueue_script('bootstrap_js'); 
+	//wp_enqueue_script('jq_watermark'); // v3.73
+	//wp_enqueue_script('bootstrap_js'); 
+	wp_enqueue_script('bootstrap_js','http://netdna.bootstrapcdn.com/bootstrap/3.0.3/js/bootstrap.min.js', array('jquery'));
+	wf_enqueue_script_hier('site_specific_js','/scripts/site_specific.js', array('jquery','jquery-ui-core','jquery-ui-widget','jquery-ui-position','jquery-ui-menu','jquery-ui-autocomplete'));
 }    
 add_action('wp_enqueue_scripts', 'wf_enqueue_assets'); 
 
