@@ -154,6 +154,9 @@ $menu = str_replace('/cms/', '/', $menu);
 											echo $custom_content; // eg: from single-l4c_group.php
 										} else {
 											echo "<div class='wf_lining'>";
+											if(function_exists('yoast_breadcrumb')) {
+												yoast_breadcrumb('<p id="breadcrumbs">','</p>');
+											}
 											if (have_posts()) : while (have_posts()) : the_post(); // Main loop
 												//if(function_exists('wf_privspan_the_title')) { // prevent crash when wf_library deactivated
 												
