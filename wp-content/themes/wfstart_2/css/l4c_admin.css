@@ -1,0 +1,541 @@
+@charset "UTF-8";
+/* CSS Document */
+
+.rwmb-radio-wrapper.status label {
+	display: block;
+	position: relative;
+}
+
+
+.rwmb-radio-wrapper.status label.error {
+	position: absolute;
+	top: 0;
+	left: -150px;
+}
+
+.rwmb-field .rwmb-input input:not([type="radio"],[type="checkbox"]),
+.rwmb-field .rwmb-input .select2-container {
+	width: 250px !important;
+}
+
+.rwmb-checkbox-wrapper input {
+	position: absolute;
+	top: 5px;
+}
+
+.rwmb-checkbox-wrapper .rwmb-input {
+	position: relative;
+}
+
+.rwmb-checkbox-wrapper .description {
+	/* position: absolute; */
+	margin-top: 0;
+	margin-left: 25px;
+}
+
+
+.rwmb-image_advanced-wrapper .rwmb-images img {
+	height: auto;
+	width: 150px;
+}
+
+.rwmb-image_advanced-wrapper .rwmb-images li {
+	height: auto;
+}
+
+
+.select2-container-multi .select2-choices .select2-search-field input {
+	height: auto;
+}
+
+.l4ce_select_action_type {
+	display: none;
+}
+
+#group_editor_for {
+	width: 15em;
+}
+
+
+#group_help_id .help_scroller {
+	
+}
+
+#group_help_id .help_scroller {
+	max-height: 150px;
+	overflow: auto;
+}
+
+#group_help_id .help_scroller p, 
+#group_help_id .help_scroller li,
+#group_help_id .help_scroller h3 {
+	font-size: 0.8em;
+	line-height: 1.2;
+	border: none;
+	padding-left: 0;
+	padding-right: 0;
+}
+
+#group_help_id .help_scroller ol {
+	margin-top: 0;
+	margin-bottom: 0;
+}
+
+#wpadminbar #wp-admin-bar-toggle_debug div.ab-item:hover {
+	cursor: pointer;
+	color: #2EA2CC !important;
+}
+
+
+
+/* UI WIDGET STUFF ************************************************************/
+
+
+body,
+html {
+	height: 100% !important;
+}
+
+.ui-widget-overlay {
+	position: fixed !important;
+	background-image: none;
+}
+
+#maincol .ui-button-text-only .ui-button-text,
+.skills .panel-heading button .ui-button-text {
+	font-size: 0.9em;
+	color: #333;
+	padding-top: 2px;
+	padding-right: 4px;
+	padding-bottom: 2px;
+	padding-left: 4px;
+}
+
+
+#maincol .data .ui-button-text {
+	padding-top: 0px !important;
+	padding-bottom: 0px !important;
+	font-size: 0.8em;
+}
+
+.listing_page .ui-widget-content {
+	background: #FFFFFF;
+}
+
+.listing_page .ui-widget-header,
+.new_venue .ui-widget-header {
+	background: #333;
+}
+
+.skills #venueDialog h3 {
+	display: none;
+}
+
+.skills #venueDialog img {
+	float: right;
+	height: 100px;
+	width: auto;
+}
+
+.listing_page #venueDialog {
+	font-size: 0.8em;
+}
+
+.listing_page .panel-heading {
+	position: relative;
+}
+
+.skills .panel-heading button {
+	position: absolute;
+	right: 10px;
+	top: 5px;
+}
+
+.skills .panel-heading i {
+	float: right;
+	width: 30px;
+	background: none;
+	color: #377688;
+}
+
+#skill_intro,
+#group_intro,
+#short_desc {
+	padding-top: 1em;
+	padding-bottom: 1em;
+	line-height: 1.2;
+}
+
+#skill_intro {
+	text-align: center;
+}
+
+#new_venue_data {
+	margin-left: 10%;
+	margin-right: 10%;
+	margin-top: 30px;
+}
+
+.collapse {
+  position: relative;
+  height: 0;
+  overflow: hidden;
+  -webkit-transition: height 0.01s ease;
+     -moz-transition: height 0.01s ease;
+       -o-transition: height 0.01s ease;
+          transition: height 0.01s ease;
+}
+
+
+.collapse.in {
+  height: auto;
+}
+
+#p_rating,
+#short_desc {
+	font-size: 1.4em;
+}
+
+#p_help label {
+	display: inline-block;
+}
+
+#p_help,
+#p_help label {
+	font-size: 0.8rem;
+}
+
+#p_help {
+	display: none;
+}
+
+
+input[type='checkbox']:focus,
+input[type='radio']:focus {
+	outline: none;
+	border-color: #FFF;
+	border: none;
+	-webkit-box-shadow: none;
+	-moz-box-shadow: none;
+	box-shadow: none;
+}
+
+#p_help input[type='checkbox'] {
+	margin-top: 0px;
+	margin-left: 15px;
+}
+
+.panel-heading a {
+	display: block;
+	padding: 10px 15px;
+}
+
+.panel-heading a:hover,
+.panel-heading a:focus {
+	text-decoration: none;
+	outline: none;
+}
+
+#venueDialog .panel-heading:hover {
+	background-color: #DDD;
+}
+
+.panel-heading h4 {
+	
+}
+
+#venueDialog .panel-heading {
+	padding: 0px;
+}
+
+.ui-dialog .ui-dialog-title {
+	font-size: 1.4em;
+}
+
+/*
+.ui-dialog {
+	z-index: 3000;
+}
+*/
+
+.ui-focus,
+.ui-btn:focus {
+  -moz-box-shadow: none;
+  -webkit-box-shadow: none;
+  box-shadow: none ;
+  outline: none;
+  border: none;
+}
+
+#new_venue_data input[type='radio'] {
+	margin-top: 0px;
+	margin-right: 5px;
+	position: relative;
+	top: 2px;
+}
+
+#new_venue_data input[type='checkbox'] {
+	margin-top: 0px;
+	margin-right: 5px;
+	position: relative;
+	top: -2px;
+}
+
+
+#new_venue_data input[type='text'] {
+	background-clip: padding-box;
+    border-radius: 4px;
+    color: #555555;
+    display: inline-block;
+    /*
+	font-size: 12px;
+    height: 16px;
+    line-height: 16px;
+	*/
+    margin-bottom: 8px;
+    padding: 4px 6px;
+    vertical-align: middle;
+}
+
+#new_venue_data label {
+	margin-bottom: 5px;
+}
+
+#p_more_involved {
+	margin-top: 12px;
+}
+
+#delete_group {
+	margin-top: 22px;
+	font-size: 12px;
+}
+
+.skills .ui-dialog-buttonpane,
+.groups .ui-dialog-buttonpane,
+.new_venue .ui-dialog-buttonpane {
+	position: relative;
+}
+
+.skills .ui-dialog-buttonpane .ui-button:first-child,
+.groups .ui-dialog-buttonpane .ui-button:first-child, 
+.interestDialog .ui-dialog-buttonpane .ui-button:first-child { 
+	position: absolute;
+	float: none;
+	left: 15px;
+}
+
+.ui-dialog .ui-dialog-titlebar-close span {
+	margin: -8px !important;
+}
+
+.ui-dialog {
+	padding: 0.2em;
+}
+
+.wp-dialog .ui-dialog-titlebar-close:before {
+	content: none;
+}
+
+.field label {
+    float: left;
+    width: 32%;
+}
+label {
+    margin-bottom: 1px;
+    position: relative;
+}
+label {
+    display: block;
+    margin-bottom: 5px;
+}
+
+
+
+
+/****************************************************************************/
+
+
+.sub_editors .add-clone {
+	display: none;	
+}
+
+.wf_help_link {
+	position: relative;
+}
+
+/*
+.rwmb-meta-box .wf_help_link:before {
+  content: "\f05a";
+  color: #0074a2;
+  cursor: pointer;
+  font-family: FontAwesome;
+    font-style: normal;
+    font-weight: normal;
+    text-decoration: inherit;
+	position: absolute;
+	font-size: 20px;
+}
+
+
+.rwmb-meta-box .wf_help_link:before {
+	left: -30px;
+	top: -3px;
+}
+*/
+
+
+.rwmb-meta-box .wf_help_link {
+  
+  color: #0074a2;
+  cursor: pointer;
+  font-family: FontAwesome;
+    font-style: normal;
+    font-weight: normal;
+    text-decoration: inherit;
+	position: absolute;
+	font-size: 13px;
+	left: -30px;
+	top: 2px;
+}
+
+.hndle.wf_help_link {
+	right: 30px;
+	top: 0px;
+}
+
+.wf_help_side i {
+    position: absolute;
+    height: 20px;
+    width: 20px;
+	right: 30px;
+	top: 10px;
+	color: #0074a2;
+	cursor: pointer;
+}
+
+.wf_help_side .help_popup i {
+	right: 5px;
+	top: 5px;
+}
+
+/*
+#params .error .feedback i:before {
+  content: "\f00d";
+  color: #F00;
+  cursor: default;
+}
+*/
+
+.wp-admin .help_popup {
+	font-family: "Open Sans",​sans-serif;
+	font-style: normal;
+	position: absolute;
+	width: 200px;
+	background-color: #EEEEEE;
+	border-radius: 6px;
+	padding: 10px;
+	box-shadow: 1px 1px 4px rgba(0, 0, 0, 0.9);
+	left: -270px;
+	top: -4px;
+	z-index: 10000;
+	color: #333;
+}
+
+.wp-admin .help_popup p {
+	font-size: 0.85em;
+}
+
+.wf_help_side .help_popup {
+	left: -465px;
+	top: -8px;
+}
+
+
+/*
+.help_popup div {
+	width: 150px;
+	background-color: #FC0;
+	border-radius: 6px;
+	padding: 10px;
+	box-shadow: 1px 1px 4px rgba(0, 0, 0, 0.9);
+	z-index: 300;
+	position: relative;
+}
+*/
+
+.help_popup span {
+	position: absolute;
+	top: 10px;
+	right: -20px;
+	background-image: url(../images/grey_pointer.png);
+	background-repeat: no-repeat;
+	background-position: left top;
+	width: 20px;
+	height: 20px;
+}
+
+
+.bp {
+	position: relative;
+	overflow: visible !important;
+}
+
+/*
+.bp_1 {
+	left: -185px;
+	top: 0;
+	z-index: 500;
+}
+*/
+
+.help_popup h4 {
+    margin-top: 0px;
+	margin-bottom: 2px;
+	font-size: 1.1em;
+}
+
+.help_popup .close {
+    line-height: 1;
+    padding: 0px;
+    position: absolute;
+    right: 5px;
+    text-decoration: none;
+    top: 5px;
+}
+
+
+.help_popup .close i {
+    margin-left: 5px;
+	color: #000 !important;
+}
+
+/*
+.help_popup .close:before {
+    content: "";
+    display: block !important;
+    font: 400 16px/1 dashicons;
+    height: 20px;
+    margin: 2px 0;
+    text-align: center;
+    width: 20px;
+}
+*/
+
+
+.what_next {
+	display: none;
+}
+
+.what_next p {
+	margin-top: 0px;
+	font-size: 0.85em;
+}
+
+p.description {
+	margin-right: 50px;
+	position: relative;
+}
+
+#l4c_interest_tax-adder { /* prevent anyone adding new interests */
+	display: none;
+}

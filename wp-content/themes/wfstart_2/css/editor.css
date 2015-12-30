@@ -1,0 +1,152 @@
+/* FROM 
+
+http://meyerweb.com/eric/thoughts/2007/04/12/reset-styles/    
+
+*/
+
+
+
+
+html,body,div,span,
+applet,object,iframe,
+h1,h2,h3,h4,h5,h6,p,blockquote,pre,
+a,abbr,acronym,address,big,cite,code,
+del,dfn,em,font,img,ins,kbd,q,s,samp,
+small,strike,strong,sub,sup,tt,var,
+dd,dl,dt,li,ol,ul,
+fieldset,form,label,legend,
+table,caption,tbody,tfoot,thead,tr,th,td {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	font-weight: normal;
+	font-style: normal;
+	font-size: 100%;
+	/*line-height: 1;*/
+	font-family: inherit;
+	text-align: left;
+}
+
+
+
+
+
+
+
+body {
+	/*background: url(../images/bg_vert2.jpg) repeat-x top;*/
+	/* font-family: "trebuchet MS", Arial, Helvetica, sans-serif; */
+	font-family: Arial, Geneva, sans-serif;
+	background: url(../images/bg_square2.jpg) repeat;
+}
+
+
+
+body.mceContentBody {
+	font-family: Arial, Geneva, sans-serif;
+	padding: 0.6em;
+	margin: 0;
+	font-size: 1em;
+}
+
+
+
+p, li, th, td {
+	color: #444444;
+	margin-top: 0.5em;
+	font-size: 86%;
+	line-height: 130%;
+}
+
+strong {
+	font-weight: bold;
+}
+
+em {
+	font-style: italic;
+}
+
+.caption {
+	color: #5E4B3A;
+	font-size: 0.8em;
+	line-height: 120%;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* MAIN COLUMN --------------------------------------------------------------------------- */
+
+
+
+
+ul, ol {
+	padding-left: 1em;
+	margin-top: 0.5em;
+}
+li {
+	margin-top: 0.2em;
+	list-style-position: outside;
+}
+
+h2 {
+	
+	margin-top: 1em;
+}
+
+
+
+h3 {
+	font-size: 0.95em;
+	font-weight: bold;
+	margin-top: 1em;
+}
+
+.intro {
+	font-size: 0.95em;
+	color: #111111;
+	margin-bottom: 1.5em;
+}
+
+
+body.mceContentBody a, 
+body.mceContentBody a:link, 
+body.mceContentBody a:visited {
+	color: #cf181d;
+	text-decoration: underline;	
+}
+a:hover {
+	text-decoration: underline;	
+}
+
+code {
+	color: #377688;
+}
+
+
+
+.clearboth {
+	clear: both;
+}
+
+
+
+
+/*  STYLES FOR SPECIFIC PAGES  */
+
+
+/* MAINTENANCE MODE */
+
+#wp-admin-bar-maintenance-mode div {
+	background-color: #C00;
+}

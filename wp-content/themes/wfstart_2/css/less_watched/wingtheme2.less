@@ -1,0 +1,280 @@
+@charset "UTF-8";
+/* CSS Document */  
+
+@import "../less_unwatched/elements.less";
+@import "../less_unwatched/wf_bootstrap.less";
+@import "../less_unwatched/responsive.less"; 
+
+#leftcol .wf_lining {
+	margin-left: 20px;
+	margin-right: 20px;
+}
+
+#maincol .wf_lining {
+	margin-left: 20px;
+	margin-right: 20px;
+}
+
+
+#rightcol .wf_lining {
+	margin-left: 20px;
+	margin-right: 20px;
+}
+#rightcol img {
+	width: 100%;
+}
+
+body {
+	background-color:#F9F9F9;
+}
+
+body > .container {
+	// background-color:#FFFFFF;
+}
+
+#leftcol,
+#rightcol,
+#maincol {
+	background-color:#FFFFFF;
+	.rounded(6px);
+	.drop-shadow(1px, 1px, 4px, 0.1);
+	padding-bottom: 0.5em; // IE
+	padding-bottom: 0.5rem;
+	//padding-top: 0.5em; // IE
+	//padding-top: 0.5rem;
+}
+
+#threecols #leftcol,
+#threecols #rightcol {
+	font-size: 9px;
+	font-size: 0.8rem;
+}
+
+#threecols #leftcol h2,
+#threecols #rightcol h2{
+	font-size: 1.2rem;
+	line-height: 1.2;
+}
+
+#maincol {
+	position: relative;
+	left: -2px;
+}
+
+#header {
+	margin-top: 20px;
+}
+
+footer {
+	text-align: center;
+	font-size: 7px;
+	font-size: 0.6rem;
+	margin-top: 2em;
+	position: relative;
+	left:-30px;
+}
+
+
+// dropdown on hover 
+//stackoverflow.com/questions/8878033/how-to-make-twitter-bootstrap-menu-dropdown-on-hover-rather-than-click
+
+ul.nav li.dropdown:hover > ul.dropdown-menu{
+    display: block;    
+}
+.navbar .dropdown-menu {
+ 	margin-top: 0px;
+}
+
+
+
+h1, h2, h3, h4, h5, h6 {
+  margin-top: (@baseLineHeight);
+}
+
+h1 { 
+	font-size: @baseFontSize * 2.75; // ~38px
+	color: @blueDark;
+} 
+
+h2 { 
+	font-size: @baseFontSize * 1.75; // was * 2.25 ~32px
+} 
+h3 { font-size: @baseFontSize * 1.25; } // was 1.75 ~24px
+h4 { font-size: @baseFontSize * 1.0; } // was 1.25 ~18px
+h5 { font-size: @baseFontSize; }
+h6 { font-size: @baseFontSize * 0.85; } // ~12px
+
+table {
+	.table;
+	.table-bordered;
+}
+
+
+
+// Sites & versions //////////////////////////////////////////////////////////
+
+#site_versions_display {
+	.table-condensed;
+	background-color: @white;
+	font-size: 80%;
+}
+
+#site_versions_display td:not(.comment), 
+#site_versions_display th:not(.comment) {
+	width: 8%;
+}
+
+#site_versions_display td.sitename, 
+#site_versions_display th.sitename {
+	width: 20%;
+}
+
+#site_versions_display .uptodate {
+	background-color: lighten(@green, 30%);
+}
+
+.page-id-829 #tableWrapDiv {
+	display: none;
+}
+
+.page-id-829.logged-in #tableWrapDiv {
+	display: block;
+}
+
+.page-id-829.logged-in #maincol,
+.page-id-829.logged-in #rightcol,
+.logged-in #twocolclearer {
+	display: none;
+}
+
+
+#maincol .syntaxhighlighter {
+	font-size: 0.8em !important;
+}
+
+.navbar .nav {
+	font-weight: bold;
+	font-size: 1.2em;
+}
+
+
+// BIEA slideshow ////////////////////////////////////////////////////////// 
+
+
+/*********/
+
+
+.biea #slidethumbs div {
+	width: 25%;
+	height: 50%;
+	/*border: solid #a7bc4f 1px;*/
+	position: absolute;
+	background-color: #a7bc4f;
+}
+
+.biea #slidethumbs div.darkner {
+	border: none;
+	background-color: transparent;
+	background-image: url(../../images/black60.png);
+	z-index: 100;
+	cursor: pointer;
+	width: 98%;
+	height: 96%;
+	position: absolute;
+	top: 1px;
+	left: 1px;
+	/*border: solid #a7bc4f 1px;*/
+}
+
+.biea #slidethumbs .active div.darkner {
+	display: none; /* v6.27 v6.29  - instead of hiding via .js */
+}
+
+.biea #slidethumbs img {
+	position: absolute;
+	top: 1px;
+	left: 1px;
+	width: 98%;
+	height: 96%;
+}
+
+
+
+.biea #slidethumbs {
+	position: relative;
+	left: -1px;
+	height: 134px;
+	width: 100%;
+	margin-top: 10px;
+	background-color: #a7bc4f;
+	border: solid #a7bc4f 1px;
+}
+
+/*
+
+#slidethumb0, 
+#slidethumb2, 
+#slidethumb4, 
+#slidethumb6 {
+	left: 0px;
+}
+#slidethumb1, 
+#slidethumb3, 
+#slidethumb5, 
+#slidethumb7 {
+	left: 50%;
+}
+#slidethumb0, 
+#slidethumb1 {
+	top: 0;
+}
+#slidethumb2, 
+#slidethumb3 {
+	top: 25%;
+}
+#slidethumb4, 
+#slidethumb5 {
+	top: 50%;
+}
+#slidethumb6, 
+#slidethumb7 {
+	top: 75%;
+}
+
+*/
+
+.biea #slidethumb0, 
+.biea #slidethumb4 {
+	left: 0;
+}
+.biea #slidethumb1, 
+.biea #slidethumb5 {
+	left: 25%;
+}
+.biea #slidethumb2, 
+.biea #slidethumb6 {
+	left: 50%;
+}
+.biea #slidethumb3, 
+.biea #slidethumb7 {
+	left: 75%;
+}
+.biea #slidethumb0, 
+.biea #slidethumb1, 
+.biea #slidethumb2, 
+.biea #slidethumb3 {
+	top: 0;
+}
+.biea #slidethumb4, 
+.biea #slidethumb5, 
+.biea #slidethumb6, 
+.biea #slidethumb7 {
+	top: 50%;
+}
+
+
+/* This is to fix a clash between bootstrap and syntaxhighlighter, both of which use .container */
+.syntaxhighlighter td.code .container:before,
+.syntaxhighlighter td.code .container:after {
+	display: block;
+}

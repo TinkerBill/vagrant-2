@@ -1,0 +1,16 @@
+@charset "UTF-8";
+/* CSS Document */
+
+body.login div#login h1 {
+	background-image: url(../images/l4c_logo_160.png);
+	text-align: center;
+	height: 83px;
+	width: 320px;
+	margin-bottom: 20px;
+	background-repeat: no-repeat;
+	background-position: center;
+}
+	
+body.login div#login h1 a {
+	display: none;
+}
