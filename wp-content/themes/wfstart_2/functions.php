@@ -511,25 +511,26 @@ function wf_register_javascripts() {
 }    
 // add_action('wp_loaded', 'wf_register_javascripts', 1); 
 
-   
+
+// new function to load assets from child theme if they exist - else from parent theme
+function wf_enqueue_style_hier($handle, $src_tail, $deps = null) { // 
+	if(file_exists(get_stylesheet_directory_uri().$src_tail)) {
+		wp_enqueue_style($handle, get_stylesheet_directory_uri().$src_tail, $deps); // version in child theme
+	} else {
+		wp_enqueue_style($handle, get_template_directory_uri().$src_tail, $deps); // version in parent theme
+	}
+}
+
+
 function wf_enqueue_assets() { 
-	wp_enqueue_style('font_exasap_css',THEME_FOLDER_URL.'/fonts/exasap/exasap.css');
-	wp_enqueue_style('awesome_css', get_template_directory_uri().'/fonts/font-awesome/css/font-awesome.min.css');
-	wp_enqueue_style('bootstrap3_css',THEME_FOLDER_URL.'/bootstrap-3.3.1/dist/css/bootstrap.css'); // v2.26
-	wp_enqueue_style('after_bootstrap_css', get_template_directory_uri().'/css/l4c_after_bootstrap.css'); // v2.26
-	wp_enqueue_style('hubweb_css',THEME_FOLDER_URL.'/css/hubweb5.css'); // v2.26 now contains contents of hometest.css
+	wf_enqueue_style_hier('font_exasap_css','/fonts/exasap/exasap.css');
+	wf_enqueue_style_hier('awesome_css','/fonts/font-awesome/css/font-awesome.min.css');
+	wf_enqueue_style_hier('bootstrap3_css','/bootstrap-3.3.1/dist/css/bootstrap.css'); // v2.26
+	wf_enqueue_style_hier('after_bootstrap_css','/css/l4c_after_bootstrap.css'); // v2.26
+	wf_enqueue_style_hier('hubweb_css','/css/hubweb5.css'); // v2.26 now contains contents of hometest.css
 	wp_enqueue_script('respond_js', get_template_directory_uri().'/scripts/respond.min.js'); // v2.27 IE support
 	wp_enqueue_script('html5shiv_js', get_template_directory_uri().'/scripts/html5shiv.min.js'); // v2.27 IE support
 	wp_enqueue_script('jq_watermark'); // v3.73
-	/*
-	wp_enqueue_script('site_specific_js'); // v3.73
-	wp_localize_script( 'site_specific_js', 'params', array(  
-		'ajax_url' => admin_url( 'admin-ajax.php' ), 
-		'title_array' => get_cpt_options('l4c_group'), // id => post_title
-		'slug_array' => get_cpt_options('l4c_group','post_name'), // this now takes optional $value parameter  id => post_name
-		'current_user' => get_current_user_id() )			   
-	);
-	*/
 	wp_enqueue_script('bootstrap_js'); 
 }    
 add_action('wp_enqueue_scripts', 'wf_enqueue_assets'); 
