@@ -50,3 +50,5 @@ packages/*
 # WordPress (Bill)
 wp-config.php
 
+cms
+cms/*
