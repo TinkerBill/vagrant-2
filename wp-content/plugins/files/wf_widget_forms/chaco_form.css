@@ -1,0 +1,254 @@
+@charset "UTF-8";
+/* CSS Document */
+
+
+.form_widget {
+	margin-top: 30px;
+	position: relative;
+	left: -10px;
+}
+
+.form_widget form {
+	text-align: left;
+}
+
+.form_widget label {
+	width: 150px;
+	text-align: right;
+	padding-right: 10px;
+	display: block;
+	color: #666666;
+}
+
+.form_widget input,
+.form_widget select {
+	width: 280px;
+	position: absolute;
+	left: 170px;
+	top: 0px;
+	min-height: 1.3em;
+}
+
+.form_widget input#capcha {
+	width: 80px;
+	position: absolute;
+	left: 170px;
+	top: 0px;
+	min-height: 1.3em;
+}
+#capchatextdiv img {
+	width: 100px;
+	position: absolute;
+	left: 280px;
+	top: 0px;
+	border: none;
+	margin-top: 0;
+	padding: 0;
+}
+
+.checkbox input {
+	width: auto;
+}
+
+
+.fswrapper fieldset .checkbox label {
+	width: 260px; /* 210 ? */
+	text-align: left;
+	display: block;
+	float: left;
+	margin-left: 200px;
+}
+
+.form_widget textarea {
+	width: 280px;
+	position: absolute;
+	left: 170px;
+	top: 0px;
+	height: 6em;
+}
+
+#cmessage_div {
+	margin-top: 2em;
+}
+
+.form_widget .cmessage {
+	height: 7em;
+}
+
+.form_widget div {
+	padding: 0;
+	margin: 5px 0 5px 0;
+	float: left;
+	position: relative;
+	width: 100%;
+}
+
+
+#postcode_div {
+	margin-top: 30px;
+}
+
+.form_widget div.form_errors {
+	margin-left: 170px;
+	width: 260px;
+	background-color: #7C7D8F;
+	padding-top: 5px;
+	padding-right: 10px;
+	padding-bottom: 20px;
+	padding-left: 15px;
+	line-height: 130%;
+}
+
+.form_widget div.form_errors p, 
+.form_widget div.form_errors li {
+	margin-left: 0px;
+	color: #FFFFFF;
+	width: 260px;
+	line-height: 180%;
+}
+
+.form_widget div.form_errors strong {
+	font-size: 1.2em;
+}
+
+#maincol .form_widget div.form_errors ul {
+	margin-left: 5px;
+}
+
+
+
+#capchatextdiv {
+	margin-top: 2em;
+	position: relative;
+}
+
+div.two-up_select select {
+	width: 75px;
+	position: absolute;
+	left: 220px;
+	top: 0px;
+}
+
+div.two-up_select {
+	width: 310px;
+	float: left;
+}
+
+.form_widget div.two-up_input {
+	float: left;
+	width: 100px;
+	clear: none;
+}
+
+div.two-up_input label {
+	display: none;
+}
+
+.form_widget div.two-up_input input{
+	left: 0px;
+	width: 100px;
+	clear: none;
+}
+
+fieldset {
+	position: relative;
+	border: none;
+}
+
+#maincol fieldset h3 {
+	margin-left: 170px;
+	margin-bottom: 0.8em;
+	float: left;
+	clear: left;
+}
+
+fieldset p {
+	margin-left: 170px;
+	margin-bottom: 1em;
+	float: left;
+	clear: left;
+	color: #666666;
+	font-size: 1em;
+	width: 280px;
+}
+
+h3.text5 {
+	border-top-width: 1px;
+	border-top-style: solid;
+	border-top-color: transparent;
+}
+
+legend {
+	display: none;
+}
+
+#page .fswrapper {
+	padding-top: 20px;
+	padding-bottom: 50px;
+	background-color: #006600;
+	-moz-border-radius:8px;
+	border-radius: 8px;
+	behavior: url('/wordpress/wp-content/themes/Copnet/scripts/PIE.htc');
+}
+
+input#do_formsend {
+	width: 191px;
+	height: 32px;
+	position: relative;
+	top: auto;
+	left: auto;
+	display: block;
+	margin-left: 170px;
+	margin-top: 50px;
+	background-image: url(images/orange_submit.png);
+	background-repeat: no-repeat;
+	background-position: left top;
+	text-indent: -9999px;
+	float: left;
+}
+
+#fsnote {
+	position: absolute;
+	top: 10px;
+	right: 0px;
+	width: 10em;
+}
+
+#fsnote p {
+	color: #666666;
+	font-size: 0.8em;
+	margin-left: 0;
+	width: auto;
+	text-align: right;
+	float: none;
+}
+
+.holly {
+	position: absolute;
+	top: 0px;
+	right: 20px;
+	width: 194px;
+}
+
+#page .form_errors {
+	color: #FFFFFF;
+	margin-left: 220px;
+	margin-right: 30px;
+	margin-bottom: 50px;
+	padding: 20px;
+	padding-top: 5px;
+	background-color: #C30;
+	-moz-border-radius:4px;
+	border-radius: 4px;
+	behavior: url('/wordpress/wp-content/themes/Copnet/scripts/PIE.htc');
+}
+
+#page .form_errors li {
+	margin-top: 0.2em;
+	margin-bottom: 0em;
+}
+
+#interested_msg_div,
+#help_msg_div {
+	height: 7em;
+}

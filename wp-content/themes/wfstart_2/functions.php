@@ -535,8 +535,8 @@ function wf_enqueue_assets() {
 	wf_enqueue_style_hier('font_exasap_css','/fonts/exasap/exasap.css');
 	wf_enqueue_style_hier('awesome_css','/fonts/font-awesome/css/font-awesome.min.css');
 	wf_enqueue_style_hier('bootstrap3_css','/bootstrap-3.3.1/dist/css/bootstrap.css'); // v2.26
-	wf_enqueue_style_hier('after_bootstrap_css','/css/l4c_after_bootstrap.css'); // v2.26
-	wf_enqueue_style_hier('hubweb_css','/css/hubweb5.css'); // v2.26 now contains contents of hometest.css
+	//wf_enqueue_style_hier('after_bootstrap_css','/css/l4c_after_bootstrap.css'); // v2.26
+	wf_enqueue_style_hier('hubweb_css','/css/wfstart_2.css'); // v2.26 now contains contents of hometest.css
 	wp_enqueue_script('respond_js', get_template_directory_uri().'/scripts/respond.min.js'); // v2.27 IE support
 	wp_enqueue_script('html5shiv_js', get_template_directory_uri().'/scripts/html5shiv.min.js'); // v2.27 IE support
 	//wp_enqueue_script('jq_watermark'); // v3.73
