@@ -1,0 +1,10 @@
+
+
+# Attempt to load files from production if they're not in our local version
+# See: https://stevegrunwell.com/blog/keeping-wordpress-under-version-control-with-git/
+<IfModule mod_rewrite.c>
+  RewriteEngine on
+  RewriteCond %{REQUEST_FILENAME} !-d
+  RewriteCond %{REQUEST_FILENAME} !-f
+  RewriteRule (.*) http://http://gitstart.tinkerbill.co.uk/wp-content/uploads/$1
+</IfModule>
