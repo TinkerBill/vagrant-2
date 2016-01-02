@@ -6,5 +6,5 @@
   RewriteEngine on
   RewriteCond %{REQUEST_FILENAME} !-d
   RewriteCond %{REQUEST_FILENAME} !-f
-  RewriteRule (.*) http://http://gitstart.tinkerbill.co.uk/wp-content/uploads/$1
+  RewriteRule (.*) http://gitstart.tinkerbill.co.uk/wp-content/uploads/$1
 </IfModule>
