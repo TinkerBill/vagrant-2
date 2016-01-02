@@ -47,8 +47,17 @@ packages/*
 
 .env
 
-# WordPress (Bill)
-wp-config.php
+# Dreamweaver (Bill)
+*.LCK
+_notes
+_notes/*
 
-cms
-cms/*
+# WordPress (Bill)
+wp-content/backup/*
+wp-content/cache/*
+wp-content/upgrade/*
+wp-content/uploads/*
+sitemap.* 
+ 
+# Include these files in previously blocked directories
+!wp-content/uploads/.htaccess
