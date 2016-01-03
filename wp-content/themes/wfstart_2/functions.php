@@ -344,7 +344,7 @@ function lib_move_stuff() { // stuff that broke when I moved wf_lib to a plugin
 		global $wp_roles;
 		global $post;
 		$html = "
-		<div id='navbar_user' class='l4c_green'>\n";
+		<div id='navbar_user'>\n";
 		
 		if(is_user_logged_in()) {
 			$current_user = wp_get_current_user(); // coz may just have been logged in as public
