@@ -1,0 +1,10 @@
+@charset "UTF-8";
+
+.form_widget .fswrapper {
+	float: none;
+}
+
+.form_widget .submit {
+	position: relative;
+	float: left;
+}
