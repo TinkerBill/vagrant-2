@@ -508,7 +508,7 @@ body .navbar .nav > li > a {
 
 #navbar_user {
 	float: right;
-	font-size: 0.85rem;
+	/*font-size: 0.85rem;*/
 	padding-left: 10px;
 	padding-right: 10px;
 }
@@ -517,6 +517,16 @@ body .navbar .nav > li > a {
 	margin-top: 3px;
 	margin-bottom: 0;
 }
+
+#navbar_user a,
+#navbar_user a:link,
+#navbar_user a:hover,
+#navbar_user a:visited,
+#navbar_user a:active,
+#navbar_user a:focus {
+	color:#FFCC00;
+}
+
 
 
 /* END OF NAVBAR *******************************************************************************************/
@@ -1458,6 +1468,10 @@ h3 .help_popup {
 	
 	#navmain:not(.collapse) {
    		margin-top: 12px;
+	}
+	
+	#navbar_user p {
+		margin-top: 0px;
 	}
 	
 }

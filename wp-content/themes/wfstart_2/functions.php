@@ -339,7 +339,7 @@ function lib_move_stuff() { // stuff that broke when I moved wf_lib to a plugin
 				$current_user = wp_get_current_user(); // coz may just have been logged in as public
 				$role_slug = $current_user->roles[0];
 				//WFB($role_slug,'$role_slug from get_navbar_user()');
-				$html .= "<p>Logged in as <strong>".$current_user->user_login."</strong>&nbsp; &nbsp;<a href='".wp_logout_url(home_url())."'>Logout</a></p>";	  
+				$html .= "<p>Logged in as <strong>".$current_user->user_login."</strong>&nbsp; &nbsp;<a  class='button' href='".wp_logout_url(home_url())."'>Logout</a></p>";	  
 				/*
 				<ul>
 				  <li><a href='".get_edit_user_link()."'>Edit my details</a> |</li> 
