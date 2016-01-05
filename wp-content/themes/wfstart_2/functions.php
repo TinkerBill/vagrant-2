@@ -143,24 +143,6 @@ function load_before_lib() {
 		return  $text;
 	}
 	
-	function extra_markup($params) { // used to add extra divs etc to start of widgets
-		
-		if(strpos($params['style'],'featured_group') !== false) {
-			$html = "<div class='fader'></div>
-					<div id='featured_group'>
-						<a href='/about/how-it-works/how-it-works-for-groups/' class='link'>Feature your Group here!</a>
-					</div>";
-		} elseif($params['region'] == 'home2_left') {
-			$html = "<div id='join_groups'>
-						<a class='link' href='/groups/'>Join the family</a>
-					</div>
-					<a class='coverlink' href='/groups/'>&nbsp;</a>";
-		} else {
-			$html ='';
-		}
-		return $html;
-	}
-	
 	
 }
 
@@ -236,18 +218,18 @@ function lib_move_stuff() { // stuff that broke when I moved wf_lib to a plugin
 	
 	
 	// Adds classes for post types and singles
-	function l4c_page_class($post) {
-		if(!isset($post)) {
-			return;
+	if(!function_exists('page_class')) { // pluggable by child theme
+		function page_class($post) {
+			if(!isset($post)) {
+				return;
+			}
+			$class = $post->post_name;
+			// can add other classes here, eg:
+			if(in_category('blog', $post)) {
+				$class .= ' blog';							   
+			}
+			return $class;
 		}
-		$class = $post->post_name;
-		if(in_array(get_post_type($post),array('l4c_location','l4c_event','l4c_group','l4c_action','l4c_skill'))) {
-			$class .= ' single-l4c';							   
-		}
-		if(in_category('blog', $post)) {
-			$class .= ' blog';							   
-		}
-		return $class;
 	}
 
 
@@ -346,34 +328,35 @@ function lib_move_stuff() { // stuff that broke when I moved wf_lib to a plugin
 	
 	// USER FEEDBACK /////////////////////////////////////////////////////////////////////////////////////
 	
-	
-	function get_navbar_user() { // the 'logged in as' bit to the right of the main menu
-		global $wp_roles;
-		global $post;
-		$html = "
-		<div id='navbar_user'>\n";
-		
-		if(is_user_logged_in()) {
-			$current_user = wp_get_current_user(); // coz may just have been logged in as public
-			$role_slug = $current_user->roles[0];
-			//WFB($role_slug,'$role_slug from get_navbar_user()');
-			$html .= "<p>Logged in as <strong>".$current_user->user_login."</strong>&nbsp; &nbsp;<a href='".wp_logout_url(home_url())."'>Logout</a></p>";	  
-			/*
-			<ul>
-			  <li><a href='".get_edit_user_link()."'>Edit my details</a> |</li> 
-			  <li><a href='".wp_logout_url(home_url())."'>Logout</a></li>
-			</ul>";
-			*/
-		} else {
-			$permalink = (is_front_page()) ? get_bloginfo('url').'/summary-page/' : get_permalink();
-			$html .= "
-			<p>
-				<a href='".wp_login_url($permalink)."'>Log in</a> or 
-				<a href='".wp_registration_url()."' title='Register'>Register</a>
-			</p>";
+	if(!function_exists('get_navbar_user')) {
+		function get_navbar_user() { // the 'logged in as' bit to the right of the main menu
+			global $wp_roles;
+			global $post;
+			$html = "
+			<div id='navbar_user'>\n";
+			
+			if(is_user_logged_in()) {
+				$current_user = wp_get_current_user(); // coz may just have been logged in as public
+				$role_slug = $current_user->roles[0];
+				//WFB($role_slug,'$role_slug from get_navbar_user()');
+				$html .= "<p>Logged in as <strong>".$current_user->user_login."</strong>&nbsp; &nbsp;<a href='".wp_logout_url(home_url())."'>Logout</a></p>";	  
+				/*
+				<ul>
+				  <li><a href='".get_edit_user_link()."'>Edit my details</a> |</li> 
+				  <li><a href='".wp_logout_url(home_url())."'>Logout</a></li>
+				</ul>";
+				*/
+			} else {
+				$permalink = (is_front_page()) ? get_bloginfo('url') : get_permalink();
+				$html .= "
+				<p>
+					<a class='button' href='".wp_login_url($permalink)."'>Log in</a> ".
+					//or <a href='".wp_registration_url()."' title='Register'>Register</a>
+				"</p>";
+			}
+			$html .= "</div>";
+			return $html;
 		}
-		$html .= "</div>";
-		return $html;
 	}
 	
 	
@@ -512,11 +495,11 @@ function l4c_admin_assets() { // v6.25
 // add_action('admin_print_styles', 'l4c_admin_assets', 100 ); //v6.45
   
 function wf_register_javascripts() {    
-	wp_register_script( 'l4c_groups_js', THEME_FOLDER_URL."/scripts/l4c_groups.js", array('jquery','jquery-ui-widget','jquery-ui-core')); 
-	wp_register_script( 'site_specific_js', get_template_directory_uri().'/scripts/site_specific.js', array('jquery','jquery-ui-core','jquery-ui-widget','jquery-ui-position','jquery-ui-menu','jquery-ui-autocomplete'));
+	//wp_register_script( 'l4c_groups_js', THEME_FOLDER_URL."/scripts/l4c_groups.js", array('jquery','jquery-ui-widget','jquery-ui-core')); 
+	//wp_register_script( 'site_specific_js', get_template_directory_uri().'/scripts/site_specific.js', array('jquery','jquery-ui-core','jquery-ui-widget','jquery-ui-position','jquery-ui-menu','jquery-ui-autocomplete'));
 	wp_register_script( 'bootstrap_js', 'http://netdna.bootstrapcdn.com/bootstrap/3.0.3/js/bootstrap.min.js', array('jquery'));
 }    
-// add_action('wp_loaded', 'wf_register_javascripts', 1); 
+add_action('wp_loaded', 'wf_register_javascripts', 1); 
 
 
 // new function to load assets from child theme if they exist - else from parent theme
@@ -547,8 +530,8 @@ function wf_enqueue_assets() {
 	wp_enqueue_script('respond_js', get_template_directory_uri().'/scripts/respond.min.js'); // v2.27 IE support
 	wp_enqueue_script('html5shiv_js', get_template_directory_uri().'/scripts/html5shiv.min.js'); // v2.27 IE support
 	//wp_enqueue_script('jq_watermark'); // v3.73
-	//wp_enqueue_script('bootstrap_js'); 
-	wp_enqueue_script('bootstrap_js','http://netdna.bootstrapcdn.com/bootstrap/3.0.3/js/bootstrap.min.js', array('jquery'));
+	wp_enqueue_script('bootstrap_js'); 
+	//wp_enqueue_script('bootstrap_js','http://netdna.bootstrapcdn.com/bootstrap/3.0.3/js/bootstrap.min.js', array('jquery'));
 	wf_enqueue_script_hier('site_specific_js','/scripts/site_specific.js', array('jquery','jquery-ui-core','jquery-ui-widget','jquery-ui-position','jquery-ui-menu','jquery-ui-autocomplete'));
 }    
 add_action('wp_enqueue_scripts', 'wf_enqueue_assets'); 

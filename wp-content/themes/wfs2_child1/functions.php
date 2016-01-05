@@ -6,4 +6,4 @@
 //wordpress.org/support/topic/plugin-wordpress-seo-by-yoast-sitemap-autodiscovery-validation-problems
 add_action('wp_enqueue_scripts', function() {
 	wp_enqueue_style('child_css',get_stylesheet_directory_uri().'/css/child.css');
-}); 
+}, 20); 

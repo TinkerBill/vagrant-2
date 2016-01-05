@@ -59,7 +59,7 @@ $menu = str_replace('/cms/', '/', $menu);
 		<!-- -->
 	</head>
 	
-	<body <?php body_class(l4c_page_class($post));?>><?php // body_class('godfather-'.$godfather. ' '.$post->post_status); //godfather added for css styling ?>
+	<body <?php body_class(page_class($post));?>>
 		
 		<!---->
 		<!--<div id="wrapper" class="container">-->

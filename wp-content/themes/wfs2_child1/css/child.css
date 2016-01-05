@@ -1,10 +1,101 @@
 @charset "UTF-8";
 
-.form_widget .fswrapper {
-	float: none;
+
+
+/* NAVBAR *******************************************************************************************/
+
+#nav_container,
+.navbar .nav > li > a {
+	background-color: #666666; /* #333333; */
 }
 
-.form_widget .submit {
+.navbar .nav > li {
+	border-right-color: #999999;
+}
+
+#navmain > ul {
+	border-left-color: #999999;	
+}
+
+
+
+#rightcol .wf_lining {
+    border-top: 1px solid transparent;
+    padding-left: 30px;
+    padding-right: 30px;
+    position: relative;
+	margin-left: 0;
+	margin-right: 0;
+	
+
+    background-color: #ffffff;
+    border-radius: 6px;
+    box-shadow: 1px 1px 4px rgba(0, 0, 0, 0.1);
+    padding-bottom: 0.5rem;
+}
+
+
+#nav_container {
+    box-shadow: 0 0 5px 2px #f0f0f0;
+    clear: none;
+    float: none;
+    margin: auto auto 0;
+    min-height: 28px;
+    position: relative;
+    top: 0;
+}
+
+#topnav {
+	display: none;
+}
+
+#chaco_logo {
+	position: absolute;
+	bottom: 30px;
+	right: 50px;
+}
+
+#header_lining {
 	position: relative;
-	float: left;
+}
+
+#chaco_headpic {
+
+}	
+
+
+
+@media (max-width: 767px) {
+	
+	#chaco_logo {
+		width: 144px;
+		height: auto;
+		bottom: 15px;
+		left: 0;
+		right: 0;
+		margin-left: auto;
+		margin-right: auto;
+	}
+	
+	#header_lining {
+		padding: 0;
+	}
+	
+	#navmain {
+	}
+	
+	#nav_container .button {
+		display: inline-block;
+		background-color:#CCC;
+
+		background-image: none;
+		border: 1px solid transparent;
+		border-radius: 4px;
+		margin-bottom: 8px;
+		margin-right: 10px;
+		margin-top: 8px;
+		padding: 9px 10px;
+		position: relative;
+	}
+	
 }

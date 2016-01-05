@@ -550,6 +550,21 @@ body .navbar .nav > li > a {
 }
 
 
+.collapse {
+  position: relative;
+  height: 0;
+  overflow: hidden;
+  -webkit-transition: height 0.01s ease;
+     -moz-transition: height 0.01s ease;
+       -o-transition: height 0.01s ease;
+          transition: height 0.01s ease;
+}
+
+.collapse.in {
+  height: auto;
+}
+
+
 /* END OF HEADER ********************************************************************************************************************/
 
 
@@ -756,6 +771,17 @@ ul.inline li {
 
 
 /* FORM WIDGET ***************************************************************************/
+
+
+.form_widget .fswrapper {
+	float: none;
+}
+
+.form_widget .submit {
+	position: relative;
+	float: left;
+}
+
 
 /*
 select {
