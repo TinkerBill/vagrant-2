@@ -144,6 +144,53 @@ function load_before_lib() {
 	}
 	
 	
+	// overrides version in wf_library - removing the Help pages menu
+	function wf_change_admin_bar_menu() {
+			global $wp_admin_bar;
+			if (!is_admin_bar_showing() ) //  !is_super_admin() || 
+				return;
+						
+			$wp_admin_bar->add_menu( array( // rejigged v6.44
+				'id' => 'development',
+				'title' => __( 'Development'),
+				'href' => FALSE ) );
+				
+			$devlog = get_page_by_path('development-log', OBJECT, 'wf_sitenote'); 
+			if($devlog) {
+				$devlog_link = get_edit_post_link($devlog->ID);
+				
+				$wp_admin_bar->add_menu( array( // v6.23
+				'id' => 'dev_log',
+				'parent' => 'development',
+				'title' => __( 'Development log'),
+				'href' => wf_linkfix('/wf_sitenote/development-log/') ) );
+				$wp_admin_bar->add_menu( array( // v6.15
+				'id' => 'edit_devlog',
+				'parent' => 'development',
+				'title' => __( 'Edit Dev Log'),
+				'href' => $devlog_link));
+			}
+			$todo = get_page_by_path('to-do', OBJECT, 'wf_sitenote'); 
+			if($todo) {
+				$todo_link = get_edit_post_link($todo->ID);
+				$wp_admin_bar->add_menu( array(
+				'id' => 'to_do',
+				'title' => __('To do'),
+				'parent' => 'development',
+				'href' => wf_linkfix('/wf_sitenote/to-do/') ) );
+			}
+			$wp_admin_bar->add_menu( array( 
+			'id' => 'validator_new',
+			'parent' => 'development',
+			'title' => __( 'W3C Validator'),
+			'href' => 'http://validator.w3.org/check?uri=referer' ) );
+				
+			}
+	
+		add_action('admin_bar_menu', 'wf_change_admin_bar_menu', 1000);
+
+	
+	
 }
 
 
