@@ -532,9 +532,9 @@ body .navbar .nav > li > a {
 /* END OF NAVBAR *******************************************************************************************/
 
 
-.navbar-toggle {
+#nav_container .navbar-toggle {
 	float: none;
-	margin-left: 10px;
+	margin-left: 20px;
 }
 
 .navbar-header {
@@ -1397,6 +1397,10 @@ h3 .help_popup {
 		color: #FFF;
 	}
 	
+	.dropdown-menu {
+		padding: 0px;
+	}
+	
 	/*
 	#navmain .dropdown-menu > li > a:hover {
 		color: #FFF;
@@ -1412,25 +1416,29 @@ h3 .help_popup {
 	}
 	
 	#navmain a:hover {
-		background-color: #377688;
+		background-color: #777777;
 		color: #FFF;
 	}
 	
 	.navbar-nav > li {
-		background-color: #6095a5;
-		border-top: 1px solid #377688;
+		background-color: #666666;
+		border-top: 1px solid #999999;
+	}
+	
+	.navbar-nav .open .dropdown-menu > li > a {
+		border-top: 1px dotted #777777;
 	}
 	
 	.navbar-nav > li:first-child {
-		border-top: 1px solid #6095a5;
+		border-top: 1px solid #999999;
 	}
 	.navbar-nav > li:last-child,
 	.navbar-nav > li:last-child li:last-child {
-		border-bottom: 1px solid #6095a5;
+		border-bottom: 1px solid #999999;
 	}
 	
 	#navmain .navbar-nav li {
-		background-color: #6095a5;
+		background-color: #666666;
 		height: auto !important;
 		border-left: none;
 		border-right: none;
@@ -1455,7 +1463,7 @@ h3 .help_popup {
 	#navmain .current_page_parent.dropdown:not(.open) a:hover,
 	#navmain .current_page_item a,
 	#navmain .current_page_item a:hover {
-		background-color: #cf181d;
+		background-color: #333333;
 	}
 	
 	#nav_wrapper .navbar-toggle,
@@ -1467,12 +1475,36 @@ h3 .help_popup {
 	}
 	
 	#navmain:not(.collapse) {
-   		margin-top: 12px;
+   		margin-top: 0px;
 	}
+	
+	
 	
 	#navbar_user p {
 		margin-top: 0px;
 	}
+	
+	#nav_container .button {
+		display: inline-block;
+		background-color:#CCC;
+
+		background-image: none;
+		border: 1px solid transparent;
+		border-radius: 4px;
+		margin-bottom: 8px;
+		margin-right: 10px;
+		margin-top: 8px;
+		padding: 9px 10px;
+		position: relative;
+	}
+	
+	#nav_container .navbar-toggle:not(.collapsed) {
+		padding-bottom: 20px;
+		margin-bottom: -1px;
+		border-bottom-right-radius: 0px;
+		border-bottom-left-radius: 0px;
+	}
+	
 	
 }
 

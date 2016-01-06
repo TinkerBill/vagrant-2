@@ -72,6 +72,16 @@ $menu = str_replace('/cms/', '/', $menu);
 			<header id="header">
 			
 			<div id="header_lining" class="container">
+			
+				<!-- headerpic img goes here -->
+				
+				<div id='brand'>
+				<p id='sitename'><?php echo bloginfo('name'); ?></p>
+				<p id='strapline'><?php echo bloginfo('description'); ?></p>
+				<a id='brand_logo' href='<?php echo bloginfo('url'); ?>'>
+					<!-- logo img goes here -->
+				</a>
+			</div>
 						
 				<div class='insert_items region_topnav default'>
 					<div class='postwrap'>
@@ -79,15 +89,10 @@ $menu = str_replace('/cms/', '/', $menu);
 							//echo $topnav; ?>
 							
 						</ul>
-						<p id='strapline'><?php echo bloginfo('description'); ?></p>
+						
 					</div>
 				</div>
-				<div id='l4c_logo'>
-					<img  src="<?php echo THEME_FOLDER_URL ?>/images/l4c_logo_200.png" width="200" height="104" alt='Leeds for Change logo'>
-					<!--<p id='beta'>Beta Release</p>-->
-				</div>
-				<img id='lfc_headpic' src="<?php echo THEME_FOLDER_URL ?>/images/Lfc-head-pic_v2.png" width="502" height="135" alt='Assorted thumbnail photos of Leeds campaigners'>
-				
+								
 			</div>
 				
 								

@@ -61,7 +61,14 @@ $menu = str_replace('/cms/', '/', $menu);
 		<div id="header_lining" class="container">
 		
 			<img id='chaco_headpic' src="<?php echo THEME_FOLDER_URL ?>/images/chaco_header3.jpg" width="1008" height="300" alt='Playing field'>
-			<img id='chaco_logo' src="<?php echo THEME_FOLDER_URL ?>/images/chaco_logo.png" width="200" height="104" alt='Leeds for Change logo'>
+			
+			<div id='brand'>
+				<p id='sitename'><?php echo bloginfo('name'); ?></p>
+				<p id='strapline'><?php echo bloginfo('description'); ?></p>
+				<a id='brand_logo' href='<?php echo bloginfo('url'); ?>'>
+					<img id='ex_chaco_logo' src="<?php echo THEME_FOLDER_URL ?>/images/chaco_logo.png" width="200" height="104" alt='Leeds for Change logo'>
+				</a>
+			</div>
 					
 			<div class='insert_items region_topnav default'>
 				<div class='postwrap'>
@@ -69,20 +76,12 @@ $menu = str_replace('/cms/', '/', $menu);
 						//echo $topnav; ?>
 						
 					</ul>
-					<!--<p id='strapline'>< ?php echo bloginfo('description'); ?></p>-->
 					
 				</div>
 			</div>
-			<div id='l4c_logo'>
-				<!--<img  src="< ?php echo get_stylesheet_directory_uri() ?>/images/l4c_logo_200.png" width="200" height="104" alt='Leeds for Change logo'>-->
-				<!--<p id='beta'>Beta Release</p>-->
-			</div>
-			<!--<img id='lfc_headpic' src="< ?php echo THEME_FOLDER_URL ?>/images/chaco_header2.jpg" width="502" height="135" alt='Assorted thumbnail photos of Leeds campaigners'>-->
 			
 		</div>
-			
 							
-			<!--<nav id='nav_wrapper' class="navbar navbar-default">-->
 			  <nav id='nav_container' class="container navbar">
 				
 				<div class="navbar-header">
@@ -100,9 +99,7 @@ $menu = str_replace('/cms/', '/', $menu);
 				  </ul>
 			
 				</div><!-- /.navbar-collapse -->
-			  </nav><!-- /.container-fluid -->
-			<!--</nav>-->
-			
+			  </nav><!-- /.container-fluid -->			
 			
 		</header>
 		
@@ -214,7 +211,6 @@ $menu = str_replace('/cms/', '/', $menu);
 				
 				
 			</div><!--row-fluid -->
-			<!--<div id="twocolclearer"></div>-->
 		</div><!-- twocols -->
 	
 			
