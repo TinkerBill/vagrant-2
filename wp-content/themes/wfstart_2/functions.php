@@ -188,6 +188,50 @@ function load_before_lib() {
 			}
 	
 		add_action('admin_bar_menu', 'wf_change_admin_bar_menu', 1000);
+		
+		
+		
+	// NB: open/closed status of metaboxes is stored per user and applies to all instances of that post type.
+	// ie: closing the Featured Image box in one group will close it for all other groups (for that user).
+	
+	
+	
+	add_action('set_user_role','set_user_closedboxes',10,2); //do_action( 'set_user_role', $this->ID, $role ); (after the role has changed)
+	//wordpress.stackexchange.com/questions/4381/make-custom-metaboxes-collapse-by-default
+	
+	function set_user_closedboxes($user_id,$role) {
+		//if(user_can($user_id,'edit_others_posts') || !user_can('edit_posts')) {
+		if($role == 'administrator') {
+			return;
+		}
+		$post_types = array(
+			'post',
+			'page',
+			'snippet',
+		);
+		$metaboxes_to_close = array(
+			'commentstatusdiv', // Discussion
+			'wf_widget_box_id', // Wingfinger Widgets
+			'tagsdiv-post_tag', // Tags
+			'postimagediv', // Featured Image
+			'wf_debug_box_id', // Wingfinger debugging
+		);
+		$metaboxes_to_hide = array(
+			'revisionsdiv', // Revisions
+			'postexcerpt', // Excerpt
+			'postcustom', // Custom Fields
+			'commentstatusdiv', // Discussion
+			'commentsdiv', // Comments
+			'slugdiv', // Slug
+			'authordiv', // Author
+			'trackbacksdiv', // Trackbacks
+		);
+		foreach($post_types as $post_type) {
+			update_user_meta($user_id,"closedpostboxes_{$post_type}",$metaboxes_to_close);
+			update_user_meta($user_id,"metaboxhidden_{$post_type}",$metaboxes_to_hide);
+		}
+	}
+
 
 	
 	
