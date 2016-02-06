@@ -1,4 +1,5 @@
 <?php
 // 
 echo "tbpull";
-`tbpull`;
+//`tbpull`;
+`git pull`;
