@@ -2,4 +2,6 @@
 // 
 echo "tbpull";
 //`tbpull`;
-`git pull`;
+//`git pull`;
+
+shell_exec('pwd');
