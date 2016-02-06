@@ -1,0 +1,53 @@
+@charset "UTF-8";
+/* CSS Document */
+
+#threecols img.avatar,
+#twocols img.avatar {
+	width: auto;
+}
+
+.com_meta {
+	font-size: 0.8em;
+	margin-bottom: 0;
+}
+
+.com_content {
+	margin-bottom: 0.4em;
+}
+
+.com_author {
+	font-weight: bold;
+	margin-right: 0.3em;
+}
+
+.comments_widget .comment {
+	border-top-width: 1px;
+	border-top-style: solid;
+	border-top-color: #CCC;	
+	padding-top: 0.4em;
+}
+
+.comments_widget {
+	border-bottom-width: 1px;
+	border-bottom-style: solid;
+	border-bottom-color: #CCC;	
+	padding-bottom: 0;
+}
+
+.comment_form_widget #reply-title {
+	display: none;
+}
+.comment-form-comment label {
+	display: none;
+}
+
+/*
+.comment-form-comment {
+	position: relative;
+	top: -0.5em;
+}
+*/
+
+.comment-form-comment br {
+	display: none;
+}

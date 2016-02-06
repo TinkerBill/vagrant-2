@@ -2,6 +2,13 @@
 
 
 /*
+
+v6.74  17/11/15	wf_db_classes.php: Changed how we set $csv_settings['intro']
+
+		5/10/15	wf_db_classes.php: Now using qs_restore() in function csv_upload($qmode)
+
+		13/9/15	Removed mysql_real_escape_string from function clean_up($text) because adds slashes to MySQL
+
 v6.73	4/9/15	Added pluggable function get_input_html() to function db_edit_form(). This allows us to add other stuff 
 				to the same table cell. Eg: javascript UI for selecting operator icon in Carplus map admin. 
 				Now class Form_MCP can work with subset of database fields - eg: when table has columns that are being phased
@@ -155,7 +162,6 @@ class Wf_SuperTable {
 				<h3>There are no relevant entries.</h3>\n
 			</div>";
 		}
-		//Wf_Debug::stash(array('$output_array' => $this->output_array)); // v6.17
 		return $this->maintable_html;
 	}
 	
@@ -168,32 +174,16 @@ class Wf_SuperTable {
 			$returns = $function_name($row_items,$rownum,'calculate_values');
 			if(empty($returns)) // v4.10
 				return ''; // bail out if empty v4.10
-			/*	
-			$output_values = $returns['outputs'];
-			$tooltips = $returns['tooltips'];
-			$cell_classes = $returns['cell_classes'];
-			$row_class = $returns['row_class'];
-			
-			
-			$this->output_array[$rownum] = $returns['outputs']; // v6.17 
-			*/
 			$html = (isset($returns['subhead_row'])) ? $returns['subhead_row'] : ''; // v6.61
 			$row_class = isset($returns['row_class']) ? $returns['row_class'] : " class='row_".$rownum." '"; // v6.73
 			$html .= "<tr".$row_class.">"; // v6.61  
 			for ($n = 0; $n < count($this->fields_to_display); $n++){
-				/*
-				$key = $this->outputkeys[$n];
-				$value = $output_values[$key];
-				if ($value == '') {
-					$value = '&nbsp;'; // 29/9/12
-				}
-				$html .= "<td".$cell_classes[$key].$tooltips[$key].">".$value."</td>";
-				*/
 				// v6.73
 				$key = $this->outputkeys[$n];
 				$value = isset($returns['outputs']) && isset($returns['outputs'][$key]) ? stripslashes($returns['outputs'][$key]) : stripslashes($row_items[$key]);
-				$value = ($value == '') ? '&nbsp;' : $value;				
-				$this->output_array[$rownum][$key] = $value;	
+				//$value = ($value == '') ? '&nbsp;' : $value;				
+				$this->output_array[$rownum][$key] = $value;
+				$value = ($value == '') ? '&nbsp;' : $value;// v6.74 - moved here because prob don't need &nbsp; in output_array		
 				$cell_class = isset($returns['cell_classes']) && isset($returns['cell_classes'][$key]) ? $returns['cell_classes'][$key] : " class='".$key." '";
 				// v2.0 added space after cell_class to help str_replace
 				$tooltip = isset($returns['tooltips']) && isset($returns['tooltips'][$key]) ? $returns['tooltips'][$key] : '';
@@ -239,7 +229,7 @@ class Form_MCP {
 	private $pdo; //v6.70
 	
 	protected $complete = false;
-	protected $table_name;
+	public $table_name; // v6.74 - was protected
 	
 	public $row_elements; // v6.71
 	
@@ -467,6 +457,7 @@ class Form_MCP {
 				}
 				if ($edit_mode !='new') { // initial form doesn't need validating
 					$check = tweak_feedback(Form_MCP::get_validation_MCP($key, $value, $db_field_array[$key])); // v6.71
+					
 				}
 				$interface_html .= "<tr class='".$key.$check['error_class']."'>\n";
 				$interface_html .= "<td class='label'><label for='".$key."'>".$db_field_array[$key]['title'].": </label></td>";
@@ -484,7 +475,6 @@ class Form_MCP {
 			case (strpos($code,'r') !== false) : // radio buttons
 				//echo "dropdown value: ".$value;
 				$option_names = $db_field_array[$key]['dropdowns'];
-				//WFB($option_names,'$option_names');
 				$radio_initial_check = ''; // by default, no radio buttons are checked when creating a new entry.
 				foreach($option_names as $okey => $option_name) {
 					if(strpos($option_name, '>') !== false) {
@@ -562,6 +552,9 @@ class Form_MCP {
 			
 		$interface_html .= "<tr class='submit'><td colspan='3'>\n";
 		$interface_html .= "<input type='submit' name='submit3'  id='submit3' value='Go' class='button' />\n";
+		$interface_html .= "<a href='".SELF_URL."?".qs_restore(array('qmode','id'))."'>
+								<input type='button' name='edit_cancel'  id='edit_cancel' value='Cancel' class='button' />\n
+							</a>";// v6.74
 		$interface_html .= "</td></tr>\n";
 	   
 		$interface_html .= "</table>";
@@ -582,9 +575,9 @@ class Form_MCP {
 	static function get_validation_MCP($key, $value, $element) { // needs to return ['error_class'] => '' or ' error', ['feedback'] => a feedback message.
 		list($func_name, $arg) = parse_validator_string($element['validator']); // v3.57
 		if($func_name == 'selectmin') {
+			WFB($arg.' '.$value.' '.$key, '$arg, $value, $key');
 			return $func_name($arg, $value, $key);
 		} else {
-			//WFB($func_name." ".$value, '$func_name & $value');
 			return $func_name($arg, $value);
 		}
 	}
@@ -645,7 +638,7 @@ class Form_MCP {
 	
 	
 	public function clean_up($text) {
-		$text = mysql_real_escape_string($text);
+		//$text = mysql_real_escape_string($text); // v6.73 removed
 		$text = preg_replace('/&(?!amp;)/i', '&amp;', $text);
 		$text =str_replace("\x96", "-", $text); // windows dash?
 		$text =str_replace("\x92", "\'", $text); // windows apostrophe?
@@ -678,121 +671,28 @@ class Form_MCP {
 	);	
 	*/
 	
-	//public function setCsvSettings($csv_uploaddir, $csv_separator, $csv_intro = false, $preprocess_function_name = false, $validate_function_name = false) {  
 		
 	public function set_csv_settings($csv_settings) {
 		$this->csv_settings = $csv_settings; 
-		if($csv_settings['intro']) {
+		//if($csv_settings['intro']) {
+		if(isset($csv_settings['intro']) && $csv_settings['intro']) { // v6.74
 			$this->csv_intro = $csv_settings['intro']; 
 		}
-		/*
-		$this->csv_uploaddir = $csv_uploaddir; 
-		$this->csv_separator = $csv_separator; 
-		if($csv_intro) {
-			$this->csv_intro = $csv_intro; 
-		}
-		if($preprocess_function_name) {
-			$this->preprocess_function_name = $preprocess_function_name; 
-		}
-		if($validate_function_name) {
-			$this->validate_function_name = $validate_function_name; 
-		}
-		*/
 	} 
 	
 	public function set_preprocessed_array($preprocessed_array) {
 		$this->preprocessed_array = $preprocessed_array; 
 	}
 	
-	public function check_or_insert($preprocessed_array, $check_or_insert) {
 		
-		if(!function_exists('tweak_feedback')) { 
-			function tweak_feedback($check) {
-				if($check =='') {
-					return array('error_class'=>'', 'feedback'=>''); // ie: no positive feedback
-				} else {
-					return array('error_class'=>' error', 'feedback'=>$check);
-				}
-			}
-		}
-		
-		
-		
-		if($this->csv_settings['validate_function']) {
-			$validate_function_name = $this->csv_settings['validate_function'];
-		}
-		
-		reset($preprocessed_array);
-
-		$csv_html  = "<table cellspacing='0' id='csvtable'>\n";
-		$csv_html  .= "<tr>\n";
-		$db_table_keys = array_keys($this->field_array);
-		
-		$issues = '';
-		
+	//v6.74
+	private function has_auto_index() {
 		// Is the first column an auto_index? If so, it won't exist in $preprocessed_array
+		$db_table_keys = array_keys($this->field_array);
 		$first_column_code = $this->field_array[$db_table_keys[0]]['code'];
-		$has_auto_index = (strpos($first_column_code,'p') !== false); // the primary index/id				
-		$offset = ($has_auto_index) ? 1 : 0;
-				
-		
-		// header row
-		foreach($db_table_keys as $db_table_key) {
-			$csv_html  .= "<th class='".$db_table_key."'>".$db_table_key."</th>";
-		}
-		$csv_html  .= "</tr>\n";
-		
-		// main body
-		if($has_auto_index) {
-			$first_key = array_shift($db_table_keys); // NB: $first_key has now been removed from $db_table_keys
-		}
-		$colmax = count($db_table_keys);
-
-		foreach($preprocessed_array as $rownum => $row) {
-			$error_class = '';
-			if(count($row) != $colmax) {
-				$issues .= "<li>E2: Column count for (human) row ".$rownum+1 ." is ".count($row) + $offset."</li>\n";
-				$error_class = " class='major_error'";
-			}
-		
-			$csv_html .= "<tr".$error_class.">\n";
-			
-			if($has_auto_index) {
-				$csv_html  .= "<td class='".$db_table_keys[0]."'>(".($rownum+1).")</td>"; // human counting for rows
-			}
-			foreach($row as $cellnum => $value) {
-				$key = $db_table_keys[$cellnum]; // first key may have already been allocated to the auto_index 
-				$tooltip = '';
-				$cell_check = $validate_function_name($key, $value, $this->field_array[$key]);  // v6.71
-				//WFB('$key: '.$key.' $value: '.$value.' $feedback: '.$cell_check['feedback']);
-				if(!empty($cell_check['feedback'])) { // ie: we have a problem
-					$tooltip = " title='".$cell_check['feedback']."' ";
-					$issues .= "<li>Invalid '".$key."' value in (human) row ".($rownum+1)."</li>\n";
-				}
-				$csv_html  .= "<td class='".$key.$cell_check['error_class']."'".$tooltip.">".$value."</td>";
-			}
-			$csv_html  .= "</tr>\n";
-		}
-		$csv_html  .= "</table>\n";
-		
-		if($check_or_insert == 'insert' && $issues == '') {
-			$args = array_fill(0, count($preprocessed_array[0]), '?');
-			//WFB($preprocessed_array[0]);
-			//$query = "INSERT INTO ".$this->table_name." (".date, transaction, debit_ac, credit_ac, amount, ref, comment.") VALUES (".implode(',', $args).")";
-			$query = "INSERT INTO ".$this->table_name." (".implode(',', $db_table_keys).") VALUES (".implode(',', $args).")";
-			$stmt = MCP::$pdo->prepare($query);
-			//WFB($query);
-			foreach ($preprocessed_array as $table_row) {
-			   //$stmt->execute($table_row);
-			}
-		}
-
-		
-		$check = array('rows' => count($preprocessed_array), 'issues' => $issues, 'show_html' => $csv_html); // TEMP!!
-		return $check;
+		$has_auto_index = (strpos($first_column_code,'p') !== false); // the primary index/id	
+		return $has_auto_index;
 	}
-	
-	
 	
 	
 	
@@ -810,7 +710,6 @@ class Form_MCP {
 		
 		
 		$csvarray = $this->csv_to_array($uploadfile);
-		//var_dump($csvarray);
 		if($this->csv_settings['preprocess_function']) {
 			$preprocess_function_name = $this->csv_settings['preprocess_function'];
 			$csvarray = $preprocess_function_name($csvarray);	 
@@ -822,18 +721,19 @@ class Form_MCP {
 			$validate_function_name = $this->csv_settings['validate_function'];
 		}
 		
-		//reset($preprocessed_array);
-
 		$csv_html  = "<table cellspacing='0' id='csvtable'>\n";
 		$csv_html  .= "<tr>\n";
 		$db_table_keys = array_keys($this->field_array);
 		
 		$issues = '';
 		
+		/*
 		// Is the first column an auto_index? If so, it won't exist in $preprocessed_array
 		$first_column_code = $this->field_array[$db_table_keys[0]]['code'];
 		$has_auto_index = (strpos($first_column_code,'p') !== false); // the primary index/id				
 		$offset = ($has_auto_index) ? 1 : 0;
+		*/
+		$offset = ($this->has_auto_index()) ? 1 : 0;// v6.74
 				
 		
 		// header row
@@ -843,7 +743,8 @@ class Form_MCP {
 		$csv_html  .= "</tr>\n";
 		
 		// main body
-		if($has_auto_index) {
+		//if($has_auto_index) {
+		if($this->has_auto_index()) { // v6.74
 			$first_key = array_shift($db_table_keys); // NB: $first_key has now been removed from $db_table_keys
 		}
 		$colmax = count($db_table_keys);
@@ -857,14 +758,15 @@ class Form_MCP {
 		
 			$csv_html .= "<tr".$error_class.">\n";
 			
-			if($has_auto_index) {
+			if($this->has_auto_index()) { // v6.74 - Indicate human row number in brackets (because actual value will be determined by auto-index)
 				$csv_html  .= "<td class='".$db_table_keys[0]."'>(".($rownum+1).")</td>"; // human counting for rows
 			}
 			foreach($row as $cellnum => $value) {
 				$key = $db_table_keys[$cellnum]; // first key may have already been allocated to the auto_index 
 				$tooltip = '';
-				$cell_check = $validate_function_name($key, $value, $this->field_array[$key]);  // v6.71
-				//WFB('$key: '.$key.' $value: '.$value.' $feedback: '.$cell_check['feedback']);
+				//$cell_check = $validate_function_name($key, $value, $this->field_array[$key]);  // v6.71
+				$cell_check = $validate_function_name($key, $value, $this);  // v6.74
+				WFB($key.' '.$value,'$key, $value');
 				if(!empty($cell_check['feedback'])) { // ie: we have a problem
 					$tooltip = " title='".$cell_check['feedback']."' ";
 					$issues .= "<li>Invalid '".$key."' value in (human) row ".($rownum+1)."</li>\n";
@@ -877,11 +779,9 @@ class Form_MCP {
 		
 		if($check_or_insert == 'insert' && $issues == '') {
 			$args = array_fill(0, count($preprocessed_array[0]), '?');
-			//WFB($preprocessed_array[0]);
 			$query = "INSERT INTO ".$this->table_name." (".implode(',', $db_table_keys).") VALUES (".implode(',', $args).")";
 			//$stmt = MCP::$pdo->prepare($query);
-			$stmt = $this->pdo->prepare($query); //////////////////////////////////////////////////////////////////////////////////////// CHANGED 17/6/15
-			//WFB($query);
+			$stmt = $this->pdo->prepare($query); // CHANGED 17/6/15
 			foreach ($preprocessed_array as $table_row) {
 			   $stmt->execute($table_row);
 			}
@@ -892,24 +792,17 @@ class Form_MCP {
 		return $check;
 	}
 
-	
-	
-	
-	
-	
-	
-	
-	
+		
 	
 	//php.net/manual/en/function.fgetcsv.php#98427
-	//This is how to read a csv file into a multidimensional array.
+	//This is how to read a csv file into a multidimensional array. 
 	public function csv_to_array($uploadfile) {
 		$csvarray = array();
 		if(($handle = fopen($uploadfile, "r")) !== false) {
 			$nn = 0; //Set the parent multidimensional array key to 0.
 			while (($data = fgetcsv($handle, 1000, $this->csv_settings['separator'])) !== false) {
 				$c = count($data); 
-				for ($x=0;$x<$c;$x++) { 
+				for ($x=0;$x<$c;$x++) {  
 					$csvarray[$nn][$x] = $data[$x];
 				}
 				$nn++;
@@ -918,10 +811,10 @@ class Form_MCP {
 		}
 		return $csvarray;
 	}
-	
+	 
 	
     		
-	public function csv_upload($qmode) { 
+	public function csv_upload($qmode) {   
 	
 		$check = array();
 		$update_html ='';
@@ -931,21 +824,20 @@ class Form_MCP {
 		if($qmode=='csv0') {
 			$update_html .= "
 			<div id='csv_uploader'>\n".
-				$this->csv_intro."
-				<form enctype='multipart/form-data' method='post' action='".get_permalink()."?qmode=csv1#foot'>\n
-					<div id='file_div2'>\n
+				$this->csv_intro.
+				//"<form enctype='multipart/form-data' method='post' action='".get_permalink()."?qmode=csv1#foot'>\n".
+				"<form enctype='multipart/form-data' method='post' action='".SELF_URL."?qmode=csv1&".qs_restore(array('qmode'))."'>\n". // v6.74
+					"<div id='file_div2'>\n
 						<label for='file2'>File:</label>\n
 						<input type='file' name='file2' id='file2' value='".prepopulate('file2')."' />\n
 					</div>\n
-					<input type='submit' name='csv0_submit'  id='csv0_submit' value='Upload file' class='button' />\n
+					<input type='submit' name='csv0_submit'  id='csv0_submit' value='Upload file' class='button' />\n";
+			$update_html .= // v6.74
+					"<a href='".SELF_URL."?".qs_restore(array('qmode'))."'>
+  						<input type='button' class='button' value='Cancel' />
+					</a>
 				</form>\n
 			</div>";
-			/*
-			if($upload_error) { // mode gets reset to 'update0'
-				$update_html .= "<p class='error'>There was a problem uploading the file. Please try again.</p>\n";
-			}
-			*/	
-			//$ret = array ('update_html' => $update_html, 'upload_error' => $upload_error);
 			$ret = array ('', $update_html, '', ''); // $show_html, $update_html, $upload_error, $uploadfile
 		}
 		
@@ -967,32 +859,16 @@ class Form_MCP {
 			if (move_uploaded_file($_FILES['file2']['tmp_name'], $uploadfile)) {
 				$progress .= "<p>File is valid, and was successfully uploaded.</p>\n";
 				
-				
-				/*
-				$csvarray = $this->csv_to_array($uploadfile);
-				//var_dump($csvarray);
-				if($this->csv_settings['preprocess_function']) {
-					$preprocess_function_name = $this->csv_settings['preprocess_function'];
-					$csvarray = $preprocess_function_name($csvarray);	 
-				}
-				$this->set_preprocessed_array($csvarray);
-				*/
-				
-				
-				//$check = $this->check_or_insert($this->preprocessed_array,'check');
 				$check = $this->check_or_insert2($uploadfile,'check');
-				
-				//$check = array('rows' => 13, 'issues' => '', 'show_html' => '<p>some html</p>'); // TEMP!!
-				
+								
 				$progress .= "<p>".$check['rows']." rows</p>\n";
-				//echo($issues);
 				if ($check['issues'] == '') {
 					$progress .= "<p>Seems to be a valid .csv file with no problems.</p>\n";
 					
 					$update_html .= "
-				<p>Do you want to add to the existing data with a &lsquo;cleaned up&rsquo; version of the data in this file?</p>\n
-				<form method='post' action='".get_permalink()."?qmode=csv2#foot'>\n
-					<input type='hidden' name='basename'  id='basename' value='".$basename."' />\n
+				<p>Do you want to add to the existing data with a &lsquo;cleaned up&rsquo; version of the data in this file?</p>\n".
+				"<form method='post' action='".SELF_URL."?qmode=csv2&".qs_restore(array('qmode'))."'>\n". // v6.74
+					"<input type='hidden' name='basename'  id='basename' value='".$basename."' />\n
 					<input type='submit' name='replace'  id='replace' value='Replace data' class='button' />\n
 					<input type='submit' name='replaceCancel'  id='replaceCancel' value='Cancel' class='button' />\n
 				</form>";
@@ -1012,27 +888,162 @@ class Form_MCP {
 			$ret = array ($check['show_html'], $update_html, $upload_error, $uploadfile); // $show_html, $update_html, $upload_error, $uploadfile
 		}
 		
-		if ($qmode=='csv2') { // backup existing data for club, delete it from database, append new 'cleaned up' data, display it
+		if ($qmode=='csv2') { // backup existing data for this set, delete it from database, append new 'cleaned up' data, display it
 			if(isset($_POST['replace'])) {
-				//backup($_GET['club']);
-				//delete($_GET['club']);
+				
+				// v6.74
+				if(isset($this->csv_settings['pre_insert_function'])) { // v6.74
+					$pre_insert_function_name = $this->csv_settings['pre_insert_function'];
+					$pre_insert_function_name($this); // mainly used for backing up and deleting existing entries before adding new data
+				}
+				
 				$uploadfile = $this->csv_settings['uploaddir'].$_POST['basename'];
 				$check = $this->check_or_insert2($uploadfile,'insert');
-				//$insert = $check_function_name($uploadfile,$this->fieldnames,'insert'); // returns array(rows,issues,html)
 				$update_html = "<p>Database updated.</p>\n";
+				//header("Location: ".SELF_URL."?".qs_restore(array('qmode'))); // v6.74
+				//exit();
 			}
 			if(isset($_POST['replaceCancel'])) {
-				//$qmode='csv0';
-				//$update_html = "<p>Update aborted.</p>\n";
-				header("Location: ".SELF_URL."?qmode=csv0"); 
+				header("Location: ".SELF_URL."?qmode=csv0&".qs_restore(array('qmode'))); // v6.74
 				exit();
 			}
-			//$ret = array ('update_html' => $update_html);
 			$ret = array ('', $update_html, '', ''); // $show_html, $update_html, $upload_error, $uploadfile
 		}
 	
 		return $ret;
 
+	}
+	
+	//v6.74
+	public function backup($where=false,$backup_folder,$slug_base) {
+		try {
+			
+			// create a unique name for this backup
+			$k = 1; // human
+			$unique_name = false;
+			while(!$unique_name){
+				if(!file_exists($backup_folder.$slug_base."_backup{$k}.csv")) {
+					$unique_name = $slug_base."_backup{$k}.csv";
+				}
+				$k++;
+			}
+			
+			$query = "SELECT * FROM ".$this->table_name." WHERE ".$where;
+			$rows = pdo_process($this->pdo,$query, array());		
+			$handle = fopen($backup_folder.$unique_name, "w");
+			
+			// if the first column is an auto_incrementing id, we skip it
+			$columns_to_skip = (int)$this->has_auto_index(); // 0 or 1
+			fputcsv($handle, array_slice(array_keys($this->field_titles),$columns_to_skip), $this->csv_settings['separator']); // write the field names
+			foreach($rows as $row) {
+				fputcsv($handle, array_slice($row,$columns_to_skip), $this->csv_settings['separator']); // don't need first field = carloc_id
+			}
+			fclose($handle);
+			return true;
+		} catch (Exception $e) {
+			echo 'Unable to create backup csv file for '.$where;
+			error_log('Unable to create backup csv file for '.$where.': '.$e->getMessage());
+			return false;
+		}
+	}
+
+	//v6.74
+	public function delete($where=false) {
+		try {
+			$query = "DELETE FROM ".$this->table_name." WHERE ".$where;
+			$stmt = $this->pdo->prepare($query, array(PDO::ATTR_CURSOR => PDO::CURSOR_FWDONLY));
+			$stmt->execute(array());
+			$stmt->closeCursor();
+			return true;
+		} catch (Exception $e) {
+			echo 'Unable to delete '.$this->table_name.' entries for '.$where;
+			error_log('Unable to delete '.$this->table_name.' entries for '.$where.': '.$e->getMessage());
+			return false;
+		}
+	}
+	
+	//v6.74 - from metacarpool
+	public function csv_from_array($array, $delimiter) {
+		$csv = '';
+		foreach($array as $row) {
+			$csv .= implode($delimiter, $row).PHP_EOL;
+		}
+		return $csv;
+	}
+	
+	//v6.74 - from metacarpool
+	
+	/*
+	// this version works from an array
+	public function export_csv($csv_array, $filepath, $download=false) { // allows storing remotely or downloading
+		if($this->csv_settings['export_filter_function']) {
+			$export_filter_function_name = $this->csv_settings['export_filter_function'];
+			$csv_array = $export_filter_function_name($csv_array);	
+			WFB($csv_array,'$csv_array');
+		}
+		$csv = $this->csv_from_array($csv_array, $this->csv_settings['separator']);
+		if($download) {
+			header('Content-Type: application/download');
+			header("Content-Disposition: attachment; filename=".basename($filepath));
+			echo($csv);
+			//header("Location: ".SELF_URL."?".qs_restore(array('qmode'))); // v6.74
+			exit();
+			
+		} else {
+			write_file($filepath, $csv); // NB: doesn't like newlines in text fields - maybe use quotes?
+		}
+	}
+	*/
+
+	// this version works from table // v6.74
+	public function export_csv($where=true,$folder,$slug_base,$download=false) { // allows storing remotely or downloading
+		
+		try {
+			$field_list = implode(',',array_keys($this->field_titles)); // allows us to ignore deprecated fields in database
+			$query = "SELECT ".$field_list." FROM ".$this->table_name." WHERE ".$where;
+			$csv_array = pdo_process($this->pdo,$query,array());		
+			if(isset($this->csv_settings['export_filter_function'])) {
+				$export_filter_function_name = $this->csv_settings['export_filter_function'];
+				$csv_array = $export_filter_function_name($csv_array);	
+			}
+			
+			// if the first column is an auto_incrementing id, we skip it
+			$columns_to_skip = (int)$this->has_auto_index(); // 0 or 1
+			array_unshift($csv_array, array_keys($this->field_titles)); // add the field names as the first row
+	
+			foreach($csv_array as $key => $row) {
+				$csv_array[$key] = array_slice($row,$columns_to_skip); // don't need first field if it's an auto-index
+			}
+			WFB($csv_array,'$csv_array');
+	
+			$csv = $this->csv_from_array($csv_array, $this->csv_settings['separator']);
+			if($download) {
+				
+				header('Content-Type: application/download');
+				header("Content-Disposition: attachment; filename=".$slug_base.".csv");
+				echo($csv);
+				//header("Location: ".SELF_URL."?".qs_restore(array('qmode'))); // v6.74
+				exit();
+				
+			} else {
+				// create a unique name for this backup
+				$k = 1; // human
+				$unique_name = false;
+				while(!$unique_name){
+					if(!file_exists($folder.$slug_base."{$k}.csv")) {
+						$unique_name = $slug_base."{$k}.csv";
+					}
+					$k++;
+				}
+				write_file($folder.$unique_name, $csv); // NB: doesn't like newlines in text fields - maybe use quotes?
+				return true;
+			}
+			
+		} catch (Exception $e) {
+			echo 'Unable to export csv file for '.$where;
+			error_log('Unable to export csv file for '.$where.': '.$e->getMessage());
+			return false;
+		}
 	}
 
 

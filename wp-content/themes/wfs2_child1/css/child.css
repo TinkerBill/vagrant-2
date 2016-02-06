@@ -109,6 +109,21 @@
 	padding: 0;
 }
 
+
+
+
+
+#rightcol .comment .avatar {
+	display: none;
+}
+
+#rightcol .wf_lining {
+	margin-bottom: 20px;
+}
+
+textarea {
+	width: 100%;
+}
 	
 	
 @media (min-width: 768px) {

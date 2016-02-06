@@ -14,12 +14,19 @@ prevent lock-out when plugins are deactivated.
 
 
 
-if(class_exists('Wf_Widget') && isset(Wf_Widget::$region_html['right']) && class_exists('Post_widget')) {
+if(class_exists('Wf_Widget') && isset(Wf_Widget::$region_html['right'])) {
 // Pre-loading the sidebar
-	if(is_page() && empty(Wf_Widget::$region_html['right'])) {
+	if(is_page() && empty(Wf_Widget::$region_html['right']) && class_exists('Post_widget')) {
 		$post_obj = new Post_widget('right default', 'post', 'show_title=true&ids=37&widget=post');
 		Wf_Widget::$region_html['right'] = $post_obj->get_html(); 
 	}
+	if(class_exists('Comment_form_widget')) { // && isset(Wf_Widget::$region_html['bottom']) 
+	// Pre-loading the comments widgets
+		$comment_obj = new Comments_widget('right', 'comments', 'heading=Comments on this page&date_format=j.n.y  g:i A&post_id=current&widget=comments');
+		$comment_form_obj = new Comment_form_widget('right', 'comment_form', 'heading=Add a comment?&widget=comment_form');
+		Wf_Widget::$region_html['right'] = Wf_Widget::$region_html['right']."</div><div class='wf_lining'>".$comment_obj->get_html().$comment_form_obj->get_html(); 
+	}
+
 }
 
 
@@ -120,6 +127,7 @@ $menu = str_replace('/cms/', '/', $menu);
 					if(is_front_page() && isset($custom_content)) { // || is_page(2737)) { // home_test
 						echo "<div id='maincol' class='col-md-8'>";// v2.28
 						echo $custom_content;
+						echo get_region_html('bottom'); 
 					} else { ?>
 						<!--<div class="wf_lining">--><?php
 							echo "<div id='maincol' class='col-sm-8'>";// v2.28

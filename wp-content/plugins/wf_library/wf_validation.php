@@ -3,6 +3,7 @@
 // VALIDATION ROUTINES PULLED OUT OF WF_LIB //////////////////////////////////////////////////////////////////////////
 
 /*
+v6.74 8/12/15	wf_validation.php: Added function uk_postcode().
 
 v6.73	11/9/15	Added function radio()
 
@@ -146,6 +147,13 @@ function zip($arg, $value) { // Zip should allow 0-9, a-z, A-Z, space,   plus po
 	if (strlen($value) > $arg) {
 		$error_message = 'Too many characters';
 	}
+	return $error_message; 
+}
+
+// v6.74
+function uk_postcode($arg='', $value) { // $arg defaults to empty
+	$feedback = validate_postcode($value);
+	$error_message = ($feedback == 'ok') ? '' : $feedback;
 	return $error_message; 
 }
 

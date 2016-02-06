@@ -3,7 +3,7 @@
 Plugin Name: Wingfinger Library plugin  
 Plugin URI: http://www.wingfinger.co.uk
 Description: A plugin for supporting Wingfinger themes
-Version: 6.73
+Version: 6.74
 Author: Wingfinger
 Author URI: http://www.wingfinger.co.uk
 License: It's copyright!
@@ -17,6 +17,10 @@ info[at]wingfinger.co.uk for details of pricing. Thankyou.
  
  		TIP:	To find an edit for (say) version 3.22, try searching for "3.22" - I usually drop the version number into a comment on 
 				the line I've changed.
+				
+v6.74 2/12/15	BEWARE!  array_column() built-in php version has additional $index_key parameter - means that wf_lib version behaves differently! 
+				
+	21/10/15	Added function write_file($filename, $somecontent) - with function_exists(). See wf_newsletter.php			
 				
 v6.73	4/9/15	Added pluggable function get_input_html() to function db_edit_form(). This allows us to add other stuff 
 				to the same table cell. Eg: javascript UI for selecting operator icon in Carplus map admin. 
@@ -322,6 +326,8 @@ function wflib_common() {
 		array_multisort($sort_col, $dir, $arr);
 	}
 	
+	
+	//v6.74 2/12/15	BEWARE!  array_column() built-in php version has additional $index_key parameter - means that wf_lib version behaves differently! 
 	if(!function_exists('array_column')) { // v6.59  PHP introduced its own version of this in PHP 5.5
 		function array_column($array, $column) { // v4.5  returns one column of multi array
 			$ret = array();
@@ -366,6 +372,21 @@ function wflib_common() {
 		}
 	}
 	
+	// v6.74 - NB: also in wf_newsletter.php
+	if (!function_exists('write_file')) {
+		function write_file($filename, $somecontent) {
+			if (!$handle = fopen($filename, 'w')) {
+				 echo "Cannot open file ($filename)";
+				 exit;
+			}
+			if (fwrite($handle, $somecontent) === FALSE) {
+				echo "Cannot write to file ($filename)";
+				exit;
+			}
+			fclose($handle);
+		}
+	}
+		
 	
 	function nbsp_if_empty($string) { // v4.1
 		return ($string == '') ? '&nbsp' : $string;
@@ -1720,7 +1741,6 @@ function wflib_common() {
 	
 	// v6.73
 	function radioprepop2($fieldname, $itemno, $value) {
-		//WFB($fieldname.' '.$itemno.' '.$value);
 		switch($_SERVER['REQUEST_METHOD'])
 		{
 			case 'GET': $the_request = &$_GET; break;

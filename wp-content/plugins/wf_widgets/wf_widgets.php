@@ -3,7 +3,7 @@
 Plugin Name: Wingfinger Widgets plugin  
 Plugin URI: http://www.wingfinger.co.uk
 Description: A plugin for handling Wingfinger widgets
-Version: 6.79
+Version: 6.80
 Author: Wingfinger
 Author URI: http://www.wingfinger.co.uk
 License: It's copyright! 
@@ -12,6 +12,13 @@ License: It's copyright!
 /*
 This program is NOT free software; if you want to use it, please contact
 info[at]wingfinger.co.uk for details of pricing. Thankyou.
+
+v6.80	3/10/15	Added bug trap in function get_regional_inheritance($generations,$region) because 1,000 + daily warnings in error log!
+				
+				wf_widgets.php: function get_catposts($args,$params) moved from a function to a method in abstract class Wf_Widget because 
+				(a) it's used by both List and Vscroller widgets and (b) overloading a function (as opposed to a method) doesn't 
+				allow as much control over what gets overwritten. (Eg: extending Lists widget to ToDo widget causes all lists to 
+				have ToDo junk added!
 
 v6.79	22/9/15	Added outlaw_key to Tweets widget.
 
@@ -422,6 +429,15 @@ function widget_common() {
 			foreach ($generations as $aboveness => $generation) { // v3.84
 				$c_or_i = ($aboveness == 0) ? 'current' : 'inherited'; // v6.66
 				$custom_values = get_post_custom($generation); 
+				//v6.80 - because 1,000 + daily warnings in error log!
+				if(!is_array($custom_values)) {
+					/*
+					error_log("WF bug trap: wf_widgets.php, REQUEST_URI = ".$_SERVER['REQUEST_URI'].", REMOTE_ADDR = ".$_SERVER['REMOTE_ADDR'].
+						', $generation = '.$generation.', $region = '.$region);
+					*/
+					// this error occurs with  /car-sharing-clubs/car-clubs/feed/ - or any non-existent feed
+					continue; // skips to next generation
+				}
 				foreach ($custom_values as $cv_key => $cv_value) {
 					
 					$cv_key_array = explode('-',$cv_key);
@@ -698,6 +714,109 @@ function widget_common() {
 		}
 		
 		
+		//v6.80 function get_catposts($args,$params) moved from a function to a method in abstract class Wf_Widget because 
+		// (a) it's used by both List and Vscroller widgets and (b) overloading a function (as opposed to a method) doesn't 
+		// allow as much control over what gets overwritten. (Eg: extending Lists widget to ToDo widget causes all lists to 
+		// have ToDo junk added!
+		public function get_catposts($args,$params) {
+			global $post;
+			$post_store = $post;
+			$widget_query = new WP_Query($args);
+			$catposts = $widget_query -> posts;
+			d('catposts',$catposts);
+			if($params['date_format']) { // v6.63
+				$date_format = $params['date_format']; // v6.63
+			} else {
+				$date_format = (strpos($params['format'],'t') === false) ? '\P\u\b\l\i\s\h\e\d j/n/y   g:iA' : '\P\u\b\l\i\s\h\e\d j/n/y'; // v6.63
+			}
+			$list = (strpos($params['format'],'l') === false); // v5.18
+			// Default behaviour (ie: no 'l' so $list is true) truncates all excerpts as plain text.
+			$has_reveal = (strpos($params['format'],'r') !== false); // v3.84
+			
+			$html = "<div class='posts ".$params['type']."'>\n"; // added for carplus v3.15. $type for v3.20
+			foreach($catposts as $catpost) {
+				$post = $catpost; // necessary to make 'More' links work
+				
+				if($params['filter']) { // v5.9  name of function used to filter posts
+					$fname = $params['filter'];
+					if(function_exists($fname)) {
+						if(!$fname($catpost)) { // true=keep, false=discard
+							continue;
+						}
+					}
+				}
+				
+				//$cid = $catpost ->ID; // v6.63
+				
+				$html .=  "<div class='post wfpid_".$catpost->ID." ".($has_reveal ? 'reveal' : '')."'>\n"; // v6.79 added class wfpid_1234 for easier jQ manipulation
+				$html .= Wf_Widget::wf_editlink($catpost->ID);// v5.9
+				
+				
+				if(strpos($params['format'],'w') !== false) { // 'w' shows writer
+					$author_id = $catpost->post_author;
+					//$html .= "<p class='author'>Author: ".get_userdata($author_id)->display_name."</p>\n"; 
+					$author = "<span class='author'>by <strong>".get_userdata($author_id)->display_name."</strong></span>";
+				} else {
+					$author = '';
+				}
+				
+				// v6.63
+				if($params['date_field']) {
+					$date = get_post_meta($catpost->ID, $params['date_field'], true); // $single = true
+					//echo $date;
+				} else {
+					$date = $catpost->post_date;// v3.35
+				}
+				$date = date($date_format, strtotime($date));// v6.63
+				$date = str_replace(" ","&nbsp;",$date);
+				//$date_intro = $params['date_intro'] ? $params['date_intro'] : 'Published '; // v6.63
+				if(strpos($params['format'],'d') === false) { // 'd' suppresses the date
+					$html .= "<p class='date'>".$date.$author."</p>\n"; // v6.63 'Published' moved from here to date format
+				}
+				
+				$img_html = ''; // v3.53
+				if($params['pic_size']) {
+				
+					if (has_post_thumbnail($catpost->ID) && $params['pic_size'] != '0') {  // v3.38
+						$feature_pic_id = get_post_thumbnail_id($catpost->ID);
+						$img_html = wp_get_attachment_image($feature_pic_id, $params['pic_size']);
+						//$img_html = change_width_and_height($img_html,$img_size,$img_size); // v3.49  Was 100,100
+						if(isset($params['caption'])) {
+							$img_html .= wf_get_caption($catpost,$params['caption']); // 3.26
+						}
+						$img_html .= wf_get_credits($feature_pic_id); // returns empty if no 'credit=' in description, otherwise a suitable <div> (or <a> if it's a link)
+					}
+				}		
+				
+				$custom_fields = get_post_custom($catpost->ID);// v3.32
+				if(isset($custom_fields['when'])) { // an array
+					$html .= "<p class = 'details'>".$custom_fields['when'][0]."</p>\n";
+				}
+				if(isset($custom_fields['Descriptor'])) { // an array
+					$html .=  "<p class='type'>".$custom_fields['Descriptor'][0]."</p>\n";
+				}
+				$title = (strpos($params['format'],'a') === false && strpos($params['format'],'r') === false) ? "<a href='".get_permalink($catpost->ID)."' rel='bookmark' title='Permanent Link to ".remove_square_brackets($catpost->post_title)."' >".remove_square_brackets($catpost -> post_title)."</a>" : remove_square_brackets($catpost -> post_title); // v3.78 v3.84 v6.77
+				
+				$html .= "<p class='title ".($has_reveal ? 'reveal_head' : '')."'>".$title."</p>\n"; //v5.18
+				if(function_exists('insert_post_extras')) { // v3.53
+					$html .= insert_post_extras($custom_fields, $params);  // v3.53 eg: SoP featured videos	 v3.63 added $params
+				}
+				
+				$html .= $img_html; // v3.53
+				if($params['type'] !=='titles') {
+					$html .= "<div class='entry ".($has_reveal ? 'reveal_tail' : '')."'>\n"; // v5.18
+					$html .= Wf_Widget::get_excerpt_or_full($catpost,$params['type'], $list);  //   3.31 $list = true 3.39
+					$html .= "</div>\n"; // class = 'entry'
+				}
+				$html .= "</div>\n"; // class = 'post'
+			} //foreach
+			$html .= "</div>\n"; // class = 'posts' added for carplus   v3.15
+			$html .= List_widget::wf_paginate_list($args, $widget_query->found_posts);
+			$post = $post_store;
+			return $html;
+		}
+	
+
 	
 	
 	

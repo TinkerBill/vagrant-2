@@ -1,6 +1,14 @@
 <?php 
 
 /*
+v6.80	3/10/15	Added bug trap in function get_regional_inheritance($generations,$region) because 1,000 + daily warnings in error log!
+				
+				wf_widgets.php: function get_catposts($args,$params) moved from a function to a method in abstract class Wf_Widget because 
+				(a) it's used by both List and Vscroller widgets and (b) overloading a function (as opposed to a method) doesn't 
+				allow as much control over what gets overwritten. (Eg: extending Lists widget to ToDo widget causes all lists to 
+				have ToDo junk added!
+
+
 v6.79	22/9/15	Added outlaw_key to Tweets widget. Added class wfpid_1234 to div.post for easier jQ manipulation.
 
 v6.78	9/4/15	Changing Tweets widget to use either script - $params['method'] = approved|outlaw
@@ -321,7 +329,15 @@ function widget_headstuff() {
 			}	
 			
 			Wf_Debug::stash(array('$args'=>$args));
-			$html .= get_catposts($args,$params);
+			
+			//v6.80
+			if(function_exists('get_catposts')) {
+				$html .= get_catposts($args,$params); // overloaded version
+			} else {
+				$html .= $this->get_catposts($args,$params); // defined in abstract class Wf_Widget
+			}
+			//
+			//$html .= get_catposts($args,$params);
 			$html .= Wf_Widget::get_endlink($params); //v5.7
 			$html .= "</div>\n"; // class = 'list'
 			return $html;
@@ -401,7 +417,7 @@ function widget_headstuff() {
 	}
 	
 	
-	
+	/* // v6.80
 	if(!function_exists('get_catposts')) {
 		
 		// Experimental version that includes reveal facility v3.84
@@ -504,7 +520,7 @@ function widget_headstuff() {
 		}
 	
 	}
-	
+	*/
 	
 	// NB: This hasn't been applied anywhere yet!
 	function shorten_text($text, $wordmax) {  
@@ -704,9 +720,13 @@ function widget_headstuff() {
 					);
 				}	
 				
-				
-				
-				$html .= get_catposts($args,$params); // all wrapped in <div class="posts"></div>
+				//v6.80
+				if(function_exists('get_catposts')) {
+					$html .= get_catposts($args,$params); // all wrapped in <div class="posts"></div>
+				} else {
+					$html .= $this->get_catposts($args,$params); // defined in abstract class Wf_Widget
+				}
+				//
 			}
 			$html .= "</div>\n"; // class='items'		
 			$html .= "</div>\n"; // class='scrollable vertical'	
